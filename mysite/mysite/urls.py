@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from communityinfo.views import register  # Import your registration view
+from communityinfo.views import register, user_login  # Import your registration view
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
-    # Add other URL patterns for other pages/views as needed
+    path('login', user_login, name='login'),
 ]
