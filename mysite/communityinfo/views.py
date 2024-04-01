@@ -16,6 +16,7 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
+        # ToDo: Workaround since the Django Authenticator is not working right now
         user= User.objects.get(email=request.POST.getlist('email')[0])
         print(user.password)
         print(make_password(request.POST.getlist('password')[0]))
