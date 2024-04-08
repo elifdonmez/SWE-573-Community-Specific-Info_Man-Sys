@@ -23,9 +23,9 @@ class LoginForm(forms.ModelForm):
 
 
 class CommunityCreationForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.CharField)
-    description = forms.CharField(widget=forms.CharField)
-    privacy = forms.BooleanField(widget=forms.BooleanField)
+    name = forms.CharField(widget=forms.TextInput)
+    description = forms.CharField(widget=forms.TextInput)
+    privacy = forms.BooleanField(widget=forms.CheckboxInput)
 
     class Meta:
         model = Community

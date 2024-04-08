@@ -15,6 +15,14 @@ class Community(models.Model):
     class Meta:
         db_table = 'communities'
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=600)
-    privacy = models.BooleanField(default=False)
+    privacy = models.CharField(max_length=200)
+
+
+class UserCommunity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    community = models.ForeignKey(Community, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'user_communities'
