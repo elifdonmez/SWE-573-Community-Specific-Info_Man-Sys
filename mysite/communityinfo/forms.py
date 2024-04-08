@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import CheckboxInput
-from .models import User
+from .models import User, Community
+
 
 class RegistrationForm(forms.ModelForm):
     email = forms.CharField(widget=forms.EmailInput)
@@ -19,3 +20,14 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'password']
+
+
+class CommunityCreationForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.CharField)
+    description = forms.CharField(widget=forms.CharField)
+    privacy = forms.BooleanField(widget=forms.BooleanField)
+
+    class Meta:
+        model = Community
+        fields = ['name', 'description', 'privacy']
+

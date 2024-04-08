@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .forms import RegistrationForm, LoginForm
 from .models import User
 
+
 def register(request):
     if request.method == 'POST':
         user = User.objects.create(email=request.POST.getlist('email')[0], password=make_password(request.POST.getlist('password')[0]))
@@ -18,8 +19,6 @@ def user_login(request):
     if request.method == 'POST':
         # ToDo: Workaround since the Django Authenticator is not working right now
         user= User.objects.get(email=request.POST.getlist('email')[0])
-        print(user.password)
-        print(make_password(request.POST.getlist('password')[0]))
         if user is not None and check_password(request.POST.getlist('password')[0], user.password ):
             # Redirect to a success page
             return redirect('home')
@@ -29,5 +28,9 @@ def user_login(request):
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
+
+
+def home_page(request):
+    return render(request, 'home.html')
 
 
