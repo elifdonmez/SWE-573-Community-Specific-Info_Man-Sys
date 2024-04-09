@@ -27,3 +27,11 @@ class UserCommunity(models.Model):
 
     username = models.CharField(max_length=600)
     community_name = models.CharField(max_length=600)
+
+
+class UserFollower(models.Model):
+    class Meta:
+        db_table = 'user_followers'
+
+    username = models.CharField(max_length=600)
+    follower_username = models.CharField(max_length=600)

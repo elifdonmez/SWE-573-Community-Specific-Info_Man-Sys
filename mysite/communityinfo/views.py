@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm
-from .models import Community, UserCommunity, RegisteredUser
+from .models import Community, UserCommunity, RegisteredUser, UserFollower
 from django.contrib.auth.models import User
 
 def register(request):
@@ -36,7 +36,8 @@ def user_login(request):
 def home_page(request):
     username = request.session['username']
     communities = Community.objects.all()
-    return render(request, 'home.html', {'communities': communities, 'username': username})
+    people = RegisteredUser.objects.all()
+    return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username})
 
 
 def community_creation(request):
@@ -63,3 +64,26 @@ def join_community(request, community_name):
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user
         pass
+
+
+def follow_user(request, username):
+    if request.method == 'POST':
+        follower_username = request.session['username']
+        # Create a Community_Creation object
+        follower_creation = UserFollower.objects.create(username=username, follower_username=follower_username)
+        follower_creation.save()
+        return render(request, 'follow-user.html', username)
+    else:
+        # Handle the case when the request method is not POST
+        # This can include displaying an error message or redirecting the user
+        pass
+
+
+def search_communities(request):
+    q = request.GET.get('q')
+    if q:
+        communities = Community.objects.filter(name__icontains=q)
+        registered_users = RegisteredUser.objects.filter(email__icontains = q)
+        return render(request,'search_communities.html', {"users": registered_users, "communities": communities})
+    else:
+        return redirect('home')

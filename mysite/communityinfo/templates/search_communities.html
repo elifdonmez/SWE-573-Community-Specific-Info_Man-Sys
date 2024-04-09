@@ -2,27 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <style>
-        .container {
-            position: relative;
-        }
-
-        .username {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 18px;
-        }
-
-        .search {
-            position: absolute;
-            top: 10px;
-            right: 200px;
-            font-size: 18px;
-        }
-
+    <title>Commities search</title>
+        <style>
         .suggested-section {
             float: left;
             width: 300px;
@@ -52,25 +33,11 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .create-community-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <button class="username"> {{ username }}</button>
-        <form action="{% url 'search_communities' %}" class="search-form">
-            <input type="text" name="q"  placeholder="Search">
-            <input type="submit" value="Search">
-        </form>
-        <h1>Welcome to the Home Page</h1>
-
-        <div class="suggested-section">
-            <h2>Suggested Communities</h2>
+    <div class="suggested-section">
+            <h2>Searched Communities</h2>
             {% for community in communities %}
             <div class="community">
                 <div class="community-name">{{ community.name }}</div>
@@ -81,11 +48,10 @@
                 </form>
             </div>
             {% endfor %}
-        </div>
-
-        <div class="suggested-section">
-            <h2>Suggested People</h2>
-            {% for user in people %}
+    </div>
+    <div class="suggested-section">
+            <h2>Searched People </h2>
+            {% for user in users %}
             <div class="community">
                 <div class="community-name">{{ user.email }}</div>
                 <form action="{% url 'follow_user' user.email %}" method="post">
@@ -94,12 +60,6 @@
                 </form>
             </div>
             {% endfor %}
-        </div>
     </div>
-
-    <div class="create-community-button">
-        <a href="{% url 'create_community' %}"><button>Create Community</button></a>
-    </div>
-
 </body>
 </html>
