@@ -1,13 +1,16 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import check_password
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm
-from .models import User, Community, UserCommunity
+from .models import Community, UserCommunity, RegisteredUser
+from django.contrib.auth.models import User
 
 def register(request):
     if request.method == 'POST':
-        user = User.objects.create(email=request.POST.getlist('email')[0], password=make_password(request.POST.getlist('password')[0]))
+        user = User.objects.create_user(username=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
         user.save()
+        registered_user = RegisteredUser.objects.create(email=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
+        registered_user.save()
         return redirect('login')  # Redirect to a success page
     else:
         form = RegistrationForm()
@@ -16,11 +19,12 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        # ToDo: Workaround since the Django Authenticator is not working right now
-        user= User.objects.get(email=request.POST.getlist('email')[0])
+        user = authenticate(username=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
         if user is not None and check_password(request.POST.getlist('password')[0], user.password ):
+            request.session['user_id'] = user.id
+            request.session['username'] = user.username
             # Redirect to a success page
-            return redirect('home_page')
+            return redirect("home_page")
         else:
             # Invalid login
             return render(request, 'login.html', {'error_message': 'Invalid email or password.'})
@@ -30,8 +34,9 @@ def user_login(request):
 
 
 def home_page(request):
+    username = request.session['username']
     communities = Community.objects.all()
-    return render(request, 'home.html', {'communities': communities})
+    return render(request, 'home.html', {'communities': communities, 'username': username})
 
 
 def community_creation(request):
@@ -47,17 +52,12 @@ def community_creation(request):
 
 def join_community(request, community_name):
     if request.method == 'POST':
-        # Query the Community model to retrieve the corresponding community object based on the community name
-        community = Community.objects.get(name=community_name)
-
-        # Obtain the community ID from the retrieved community object
-        current_community_id = community.id
-        # TODO: Get user id and fix it
-        current_user_id = 2
+        username = request.session['username']
         # Create a Community_Creation object
-        community_creation = UserCommunity.objects.create(user_id=current_user_id, community_id=current_community_id)
+        print("User Name: " + username)
+        print("Community Name: " + community_name)
+        community_creation = UserCommunity.objects.create(username=username, community_name=community_name)
         community_creation.save()
-        # Optionally, you can redirect the user to a different page after joining the community
         return redirect('home')
     else:
         # Handle the case when the request method is not POST

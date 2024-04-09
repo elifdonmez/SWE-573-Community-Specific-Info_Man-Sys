@@ -27,9 +27,16 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .username {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
+    <div class="username">Welcome, {{ username }}</div>
     <h1>Welcome to the Home Page</h1>
     <a href="{% url 'create_community' %}"><button>Create Community</button></a>
 

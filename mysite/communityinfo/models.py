@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class User(models.Model):
+class RegisteredUser(models.Model):
 
     class Meta:
         db_table = 'users'
@@ -21,8 +21,9 @@ class Community(models.Model):
 
 
 class UserCommunity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    community = models.ForeignKey(Community, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'user_communities'
+
+    username = models.CharField(max_length=600)
+    community_name = models.CharField(max_length=600)
