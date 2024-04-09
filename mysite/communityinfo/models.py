@@ -30,8 +30,18 @@ class UserCommunity(models.Model):
 
 
 class UserFollower(models.Model):
+
     class Meta:
         db_table = 'user_followers'
 
     username = models.CharField(max_length=600)
     follower_username = models.CharField(max_length=600)
+
+
+class Posts(models.Model):
+
+    class Meta:
+        db_table = 'posts'
+
+    community_name =  models.CharField(max_length=600)
+    submitter_name =  models.CharField(max_length=600)

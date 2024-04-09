@@ -58,6 +58,27 @@
             bottom: 20px;
             right: 20px;
         }
+
+        .post-section {
+            clear: both; /* Ensure it's below other floated elements */
+            margin-top: 20px;
+        }
+
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .submitter-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .post-content {
+            margin-top: 5px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -68,6 +89,17 @@
             <input type="submit" value="Search">
         </form>
         <h1>Welcome to the Home Page</h1>
+
+        <div class="post-section">
+            <h2>Recent Posts</h2>
+            {% for post in posts %}
+            <div class="post">
+                <div class="submitter-name">{{ post.submitter_name }}</div>
+                <div class="submitter-name">{{ post.community_name }}</div>
+                <div class="post-content">{{ post.content_id }}</div>
+            </div>
+            {% endfor %}
+        </div>
 
         <div class="suggested-section">
             <h2>Suggested Communities</h2>
@@ -96,7 +128,6 @@
             {% endfor %}
         </div>
     </div>
-
     <div class="create-community-button">
         <a href="{% url 'create_community' %}"><button>Create Community</button></a>
     </div>

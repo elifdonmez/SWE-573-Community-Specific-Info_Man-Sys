@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate
+from django.db import models
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
+from django.db.models import Q
+
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm
-from .models import Community, UserCommunity, RegisteredUser, UserFollower
+from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts
 from django.contrib.auth.models import User
 
 def register(request):
@@ -37,7 +40,16 @@ def home_page(request):
     username = request.session['username']
     communities = Community.objects.all()
     people = RegisteredUser.objects.all()
-    return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username})
+    user_communities = UserCommunity.objects.filter(username=username).values_list('community_name', flat=True)
+
+    # Retrieve people the user followed
+    followed_users = UserFollower.objects.filter(username=username).values_list('follower_username', flat=True)
+
+    # Retrieve posts from communities the user joined and people the user followed
+    posts = Posts.objects.filter(
+        models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
+
+    return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username, 'posts': posts})
 
 
 def community_creation(request):
@@ -69,10 +81,9 @@ def join_community(request, community_name):
 def follow_user(request, username):
     if request.method == 'POST':
         follower_username = request.session['username']
-        # Create a Community_Creation object
         follower_creation = UserFollower.objects.create(username=username, follower_username=follower_username)
         follower_creation.save()
-        return render(request, 'follow-user.html', username)
+        return render(request, 'follow-user.html', {'username': username})
     else:
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user
