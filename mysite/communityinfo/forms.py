@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import CheckboxInput
-from .models import User
+from .models import RegisteredUser, Community
+
 
 class RegistrationForm(forms.ModelForm):
     email = forms.CharField(widget=forms.EmailInput)
@@ -8,7 +9,7 @@ class RegistrationForm(forms.ModelForm):
     kvkk_rules_accepted = forms.BooleanField(widget=CheckboxInput)
 
     class Meta:
-        model = User
+        model = RegisteredUser
         fields = ['email', 'password']
 
 
@@ -17,5 +18,16 @@ class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
-        model = User
+        model = RegisteredUser
         fields = ['email', 'password']
+
+
+class CommunityCreationForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput)
+    description = forms.CharField(widget=forms.TextInput)
+    privacy = forms.BooleanField(widget=forms.CheckboxInput)
+
+    class Meta:
+        model = Community
+        fields = ['name', 'description', 'privacy']
+

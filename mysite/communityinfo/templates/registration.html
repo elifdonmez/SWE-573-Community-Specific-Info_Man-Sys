@@ -36,6 +36,7 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-bottom: 10px;
         }
         .registration-form button:hover {
             background-color: #0056b3;
@@ -44,6 +45,7 @@
 </head>
 <body>
     <div class="registration-form">
+        <a href="{% url 'login' %}"><button>Login</button></a>
         <h1>User Registration</h1>
         <form method="post">
             {% csrf_token %}

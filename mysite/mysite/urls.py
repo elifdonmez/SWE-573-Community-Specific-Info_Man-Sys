@@ -15,9 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from communityinfo.views import register, user_login  # Import your registration view
+from communityinfo.views import register, user_login, home_page, community_creation, join_community  # Import your registration view
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
     path('login', user_login, name='login'),
+    path('home', home_page, name='home_page'),
+    path('communityCreation', community_creation, name='create_community'),
+    path('join-community/<str:community_name>/', join_community, name='join_community'),
+
 ]
