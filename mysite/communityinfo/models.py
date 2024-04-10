@@ -45,3 +45,13 @@ class Posts(models.Model):
 
     community_name =  models.CharField(max_length=600)
     submitter_name =  models.CharField(max_length=600)
+
+
+class Comments(models.Model):
+
+    class Meta:
+        db_table = 'comments'
+
+    commenter_email =  models.CharField(max_length=600)
+    comment_content =  models.CharField(max_length=600)
+    post_id =  models.CharField(max_length=600)

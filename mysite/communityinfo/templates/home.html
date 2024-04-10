@@ -111,6 +111,10 @@
                     {% csrf_token %}
                     <button class="join-button" type="submit">Join</button>
                 </form>
+                <form action="{% url 'visit_community' community.name %}" method="post">
+                    {% csrf_token %}
+                    <button class="join-button" type="submit">Visit</button>
+                </form>
             </div>
             {% endfor %}
         </div>

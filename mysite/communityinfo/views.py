@@ -1,11 +1,11 @@
 from django.contrib.auth import authenticate
 from django.db import models
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from django.db.models import Q
 
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm
-from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts
+from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments
 from django.contrib.auth.models import User
 
 def register(request):
@@ -67,16 +67,35 @@ def join_community(request, community_name):
     if request.method == 'POST':
         username = request.session['username']
         # Create a Community_Creation object
-        print("User Name: " + username)
-        print("Community Name: " + community_name)
         community_creation = UserCommunity.objects.create(username=username, community_name=community_name)
         community_creation.save()
-        return render(request, 'join_community.html', {'community_name': community_name})
+        posts = Posts.objects.filter(community_name=community_name)
+
+        # Retrieve comments for each post
+        for post in posts:
+            post.comments = Comments.objects.filter(post_id=post.id)
+        comments = Comments.objects.all()
+
+        return render(request, 'join_community.html', {'community_name': community_name, 'posts': posts, 'comments': comments})
     else:
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user
         pass
 
+
+def visit_community(request, community_name):
+    if request.method == 'POST':
+        username = request.session['username']
+        posts = Posts.objects.filter(community_name=community_name)
+        # Retrieve comments for each post
+        comments = Comments.objects.all()
+            # print("Comment" + str(comments[0].comment_content))
+
+        return render(request, 'visit_community.html', {'community_name': community_name, 'posts': posts, 'comments': comments})
+    else:
+        # Handle the case when the request method is not POST
+        # This can include displaying an error message or redirecting the user
+        pass
 
 def follow_user(request, username):
     if request.method == 'POST':
