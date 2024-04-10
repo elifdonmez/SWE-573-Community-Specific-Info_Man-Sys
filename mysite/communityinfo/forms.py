@@ -25,9 +25,19 @@ class LoginForm(forms.ModelForm):
 class CommunityCreationForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput)
     description = forms.CharField(widget=forms.TextInput)
-    privacy = forms.BooleanField(widget=forms.CheckboxInput)
+    privacy = forms.NullBooleanField(widget=forms.CheckboxInput)
+    rules = forms.CharField(widget=forms.TextInput)
 
     class Meta:
         model = Community
-        fields = ['name', 'description', 'privacy']
+        fields = ['name', 'description', 'privacy', 'rules']
+
+
+class EditRulesForm(forms.ModelForm):
+    rules = forms.CharField(widget=forms.TextInput)
+
+    class Meta:
+        model = Community
+        fields = ['rules']
+
 

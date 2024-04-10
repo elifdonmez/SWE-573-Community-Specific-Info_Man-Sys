@@ -9,10 +9,9 @@
     <h1>Welcome to "{{ community_name }}" community.</h1>
     <h2>Community Rules</h2>
     <ul>
-        <li>Rule 1</li>
-        <li>Rule 2</li>
+        <li>{{ rules }}</li>
     </ul>
-            <div class="post-section">
+    <div class="post-section">
     <h2>Recent Posts</h2>
     {% for post in posts %}
     <div class="post">
@@ -34,6 +33,11 @@
         </div>
     </div>
     {% endfor %}
+<div>
+    {% if username == creator %}
+        <a href="{% url 'edit_rules' community_name=community_name %}">Edit Rules for {{ community_name }}</a>
+    {% endif %}
+</div>
 </div>
 </body>
 </html>

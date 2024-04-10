@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from django.db.models import Q
 
-from .forms import RegistrationForm, LoginForm, CommunityCreationForm
+from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm
 from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments
 from django.contrib.auth.models import User
 
@@ -53,14 +53,31 @@ def home_page(request):
 
 
 def community_creation(request):
+    username = request.session['username']
     if request.method == 'POST':
         community = Community.objects.create(name=request.POST.getlist('name')[0],
                                              description=request.POST.getlist('description')[0],
-                                             privacy=request.POST.getlist('privacy')[0])
+                                             privacy=request.POST.getlist('privacy')[0],
+                                             rules=request.POST.getlist('rules')[0],
+                                             creator=username)
         community.save()
+        form = CommunityCreationForm()
+        return render(request, 'join_community.html', {'form': form})
     else:
         form = CommunityCreationForm()
         return render(request, 'communityCreation.html', {'form': form})
+
+
+def edit_rules(request, community_name):
+    community = Community.objects.get(name=community_name)
+    if request.method == 'POST':
+        form = EditRulesForm(request.POST, instance=community)
+        if form.is_valid():
+            form.save()
+            return render(request, 'home.html')  # Redirect to home page or wherever you want after editing rules
+    else:
+        form = EditRulesForm(instance=community)
+    return render(request, 'edit_rules.html', {'form': form, 'community_name': community_name, 'rules': community.rules})
 
 
 def join_community(request, community_name):
@@ -70,13 +87,18 @@ def join_community(request, community_name):
         community_creation = UserCommunity.objects.create(username=username, community_name=community_name)
         community_creation.save()
         posts = Posts.objects.filter(community_name=community_name)
+        community = Community.objects.filter(name=community_name)
+        rules = community[0].rules
+        creator = community[0].creator
 
         # Retrieve comments for each post
         for post in posts:
             post.comments = Comments.objects.filter(post_id=post.id)
         comments = Comments.objects.all()
 
-        return render(request, 'join_community.html', {'community_name': community_name, 'posts': posts, 'comments': comments})
+        return render(request, 'join_community.html', {'community_name': community_name,
+                                                       'posts': posts, 'comments': comments,
+                                                       'rules': rules, 'username': username, 'creator': creator})
     else:
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user
@@ -89,9 +111,11 @@ def visit_community(request, community_name):
         posts = Posts.objects.filter(community_name=community_name)
         # Retrieve comments for each post
         comments = Comments.objects.all()
-            # print("Comment" + str(comments[0].comment_content))
+        community = Community.objects.filter(name=community_name)
+        rules = community[0].rules
 
-        return render(request, 'visit_community.html', {'community_name': community_name, 'posts': posts, 'comments': comments})
+        return render(request, 'visit_community.html', {'community_name': community_name, 'posts': posts,
+                                                        'comments': comments, 'rules': rules})
     else:
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user

@@ -18,6 +18,8 @@ class Community(models.Model):
     name = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=600)
     privacy = models.CharField(max_length=200)
+    rules = models.CharField(max_length=10000, default="No Rules")
+    creator = models.CharField(max_length=200)
 
 
 class UserCommunity(models.Model):
