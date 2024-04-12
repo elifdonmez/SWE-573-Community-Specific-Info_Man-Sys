@@ -50,7 +50,8 @@ def home_page(request):
     posts = Posts.objects.filter(
         models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
 
-    return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username, 'posts': posts})
+    return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username,
+                                         'posts': posts, 'user_communities':user_communities})
 
 
 def community_creation(request):
@@ -80,7 +81,7 @@ def edit_rules(request, community_name):
         form = EditRulesForm(instance=community)
     return render(request, 'edit-rules.html', {'form': form, 'community_name': community_name, 'rules': community.rules})
 
-
+'''
 def join_community(request, community_name):
     if request.method == 'POST':
         username = request.session['username']
@@ -121,6 +122,77 @@ def visit_community(request, community_name):
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user
         pass
+'''
+
+
+def community(request, community_name):
+    username = request.session.get('username')
+    user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
+    community = Community.objects.get(name=community_name)
+
+    if user_joined:
+        # User has joined the community, allow them to create posts
+        if request.method == 'POST':
+            form = TextBasedPostForm(request.POST)
+            if form.is_valid():
+                header = form.cleaned_data['header']
+                description = form.cleaned_data['description']
+                post_to_share = Posts.objects.create(community_name=community_name, submitter_name=username,
+                                                     header=header, description=description,
+                                                     number_of_upvotes=0, number_of_downvotes=0,
+                                                     number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
+                post_to_share.save()
+                return redirect('community', community_name=community_name)
+        else:
+            form = TextBasedPostForm()
+
+        posts = Posts.objects.filter(community_name=community_name)
+        comments = Comments.objects.all()
+
+        return render(request, 'community.html', {
+            'community_name': community_name,
+            'community': community,
+            'user_joined': user_joined,
+            'username': username,
+            'posts': posts,
+            'comments': comments,
+            'form': form,
+        })
+    else:
+        # If the user hasn't joined the community, redirect them to the home page or show an error message
+        return redirect('home_page')
+
+
+def join_community(request, community_name):
+    if request.method == 'POST':
+        username = request.session.get('username')
+        user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
+        if not user_joined:
+            # User is not already a member of the community, add them and redirect to community page
+            UserCommunity.objects.create(username=username, community_name=community_name)
+        return redirect('community', community_name=community_name)
+    else:
+        # Handle the case when the request method is not POST
+        # This can include displaying an error message or redirecting the user
+        pass
+
+
+def visit_community(request, community_name):
+    username = request.session.get('username')
+    user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
+    community = get_object_or_404(Community, name=community_name)
+
+    posts = Posts.objects.filter(community_name=community_name)
+    comments = Comments.objects.all()
+
+    return render(request, 'visit-community.html', {
+        'community_name': community_name,
+        'community': community,
+        'user_joined': user_joined,
+        'username': username,
+        'posts': posts,
+        'comments': comments,
+    })
 
 
 def follow_user(request, username):
@@ -158,7 +230,7 @@ def share_post(request, community_name):
                                                  number_of_upvotes=0, number_of_downvotes=0,
                                                  number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
             post_to_share.save()
-        return render(request,'visit-community.html', {'community_name': community_name})
+        return render(request,'community.html', {'community_name': community_name})
     else:
         form = TextBasedPostForm()
 
