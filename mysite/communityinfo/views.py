@@ -121,6 +121,7 @@ def visit_community(request, community_name):
         # This can include displaying an error message or redirecting the user
         pass
 
+
 def follow_user(request, username):
     if request.method == 'POST':
         follower_username = request.session['username']
