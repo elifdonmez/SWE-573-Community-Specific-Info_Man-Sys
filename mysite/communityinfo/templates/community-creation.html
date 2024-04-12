@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Home Page</title>
+</head>
+<body>
+<h1>Welcome to the Community Creation Page</h1>
+<div class="container_x">
+    <h1>Create Community</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create</button>
+    </form>
+</div>
+</body>
+</html>

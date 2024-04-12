@@ -45,8 +45,8 @@ class Posts(models.Model):
     class Meta:
         db_table = 'posts'
 
-    community_name =  models.CharField(max_length=600)
-    submitter_name =  models.CharField(max_length=600)
+    community_name = models.CharField(max_length=600)
+    submitter_name = models.CharField(max_length=600)
     header = models.CharField(max_length=500)
     description = models.CharField(max_length=1000)
     number_of_upvotes = models.IntegerField()
@@ -60,9 +60,9 @@ class Comments(models.Model):
     class Meta:
         db_table = 'comments'
 
-    commenter_email =  models.CharField(max_length=600)
-    comment_content =  models.CharField(max_length=600)
-    post_id =  models.CharField(max_length=600)
+    commenter_email = models.CharField(max_length=600)
+    comment_content = models.CharField(max_length=600)
+    post_id = models.CharField(max_length=600)
 
 
 

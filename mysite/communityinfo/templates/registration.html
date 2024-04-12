@@ -10,12 +10,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Ensure the page takes the full height of the viewport */
-            margin: 0; /* Remove default margin */
-            background-color: #f4f4f4; /* Optional background color */
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
         .registration-form {
-            width: 300px; /* Adjust width as needed */
+            width: 300px;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -44,14 +44,14 @@
     </style>
 </head>
 <body>
-    <div class="registration-form">
-        <a href="{% url 'login' %}"><button>Login</button></a>
-        <h1>User Registration</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
-    </div>
+<div class="registration-form">
+    <a href="{% url 'login' %}"><button>Login</button></a>
+    <h1>User Registration</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</div>
 </body>
 </html>
