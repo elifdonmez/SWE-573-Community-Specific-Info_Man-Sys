@@ -9,6 +9,15 @@ class RegisteredUser(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
 
+class UserProfile(models.Model):
+
+    class Meta:
+        db_table = 'user_profile'
+
+    email = models.EmailField(unique=True)
+    bio = models.TextField(max_length=1000)
+    photo = models.ImageField(upload_to='profile_photos', blank=True, null=True)
+    title = models.CharField(max_length=255)
 
 class Community(models.Model):
 

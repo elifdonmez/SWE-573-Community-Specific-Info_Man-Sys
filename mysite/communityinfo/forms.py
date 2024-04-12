@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import CheckboxInput
-from .models import RegisteredUser, Community, Posts
+from .models import RegisteredUser, Community, Posts, UserProfile
 
 
 class RegistrationForm(forms.ModelForm):
@@ -11,6 +11,16 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = RegisteredUser
         fields = ['email', 'password']
+
+
+class ProfileForm(forms.ModelForm):
+    bio = forms.CharField(widget=forms.TextInput)
+    photo = forms.ImageField(widget=forms.FileInput)
+    title = forms.CharField(widget=forms.TextInput)
+
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'photo', 'title']
 
 
 class LoginForm(forms.ModelForm):

@@ -14,9 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from communityinfo.views import register, user_login, home_page, community_creation, \
-    community, follow_user, search_communities, edit_rules, share_post, join_community, visit_community
+    community, follow_user, search_communities, edit_rules, share_post, join_community, visit_community, \
+    view_profile, edit_profile
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
@@ -30,5 +33,7 @@ urlpatterns = [
     path('community/<str:community_name>/', community, name='community'),
     path('join-community/<str:community_name>/', join_community, name='join_community'),
     path('visit-community/<str:community_name>/', visit_community, name='visit_community'),
+    path('profile/', view_profile, name='view_profile'),
+    path('edit-profile/', edit_profile, name='edit_profile'),
     # Update the URL pattern for the community view
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

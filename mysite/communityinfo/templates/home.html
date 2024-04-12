@@ -88,7 +88,9 @@
 </head>
 <body>
 <div class="container">
+    <a href="{% url 'view_profile' %}">
     <button class="username">{{ username }}</button>
+</a>
     <form action="{% url 'search_communities' %}" class="search-form">
         <input type="text" name="q"  placeholder="Search">
         <input type="submit" value="Search">

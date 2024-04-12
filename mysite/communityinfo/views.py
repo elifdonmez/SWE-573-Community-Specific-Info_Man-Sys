@@ -2,8 +2,8 @@ from django.contrib.auth import authenticate
 from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
-from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm
-from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments
+from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm, ProfileForm
+from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments, UserProfile
 from django.contrib.auth.models import User
 
 
@@ -19,6 +19,45 @@ def register(request):
     else:
         form = RegistrationForm()
         return render(request, 'registration.html', {'form': form})
+
+
+def view_profile(request):
+    # Get the current user
+    username = request.session['username']
+
+    try:
+        # Try to retrieve the user's profile
+        user_profile = UserProfile.objects.get(email=username)
+    except UserProfile.DoesNotExist:
+        # If the profile does not exist, redirect to the edit profile page
+        return redirect('edit_profile')
+    print("user photo: " + str(user_profile.photo).split("'")[1])
+    user_photo = "/media/" + str(user_profile.photo).split("'")[1]
+
+    return render(request, 'profile.html', {'user_profile': user_profile, 'user_photo': user_photo})
+
+
+def edit_profile(request):
+    username = request.session['username']
+
+    try:
+        # Retrieve the existing user profile instance
+        user_profile = UserProfile.objects.get(email=username)
+    except UserProfile.DoesNotExist:
+        # If the profile does not exist, create a new one
+        user_profile = UserProfile(email=username)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            # Update the user profile fields with the new data
+            form.save()
+            return redirect('view_profile')
+    else:
+        # Populate the form with the existing user profile data
+        form = ProfileForm(instance=user_profile)
+
+    return render(request, 'edit-profile.html', {'form': form})
 
 
 def user_login(request):
