@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path
 from communityinfo.views import register, user_login, home_page, community_creation, \
-    join_community, follow_user, search_communities, visit_community, edit_rules
+    join_community, follow_user, search_communities, visit_community, edit_rules, share_post
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
@@ -28,5 +28,5 @@ urlpatterns = [
     path('follow-user/<str:username>/', follow_user, name='follow_user'),
     path('search_communities', search_communities, name='search_communities'),
     path('edit-rules/<str:community_name>/', edit_rules, name='edit_rules'),
-
+    path('share_post/<str:community_name>/', share_post, name='share_post'),
 ]

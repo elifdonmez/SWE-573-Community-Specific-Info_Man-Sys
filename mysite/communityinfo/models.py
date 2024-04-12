@@ -47,7 +47,13 @@ class Posts(models.Model):
 
     community_name =  models.CharField(max_length=600)
     submitter_name =  models.CharField(max_length=600)
-
+    header = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000)
+    number_of_upvotes = models.IntegerField()
+    number_of_downvotes = models.IntegerField()
+    number_of_smiles = models.IntegerField()
+    number_of_hearts = models.IntegerField()
+    number_of_sadfaces = models.IntegerField()
 
 class Comments(models.Model):
 
@@ -57,3 +63,6 @@ class Comments(models.Model):
     commenter_email =  models.CharField(max_length=600)
     comment_content =  models.CharField(max_length=600)
     post_id =  models.CharField(max_length=600)
+
+
+
