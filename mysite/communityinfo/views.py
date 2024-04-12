@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from django.db.models import Q
 
-from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm
+from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm
 from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments
 from django.contrib.auth.models import User
 
@@ -141,3 +141,24 @@ def search_communities(request):
         return render(request,'search_communities.html', {"users": registered_users, "communities": communities})
     else:
         return redirect('home')
+
+
+def share_post(request, community_name):
+    username = request.session.get('username')
+
+    if request.method == 'POST':
+        form = TextBasedPostForm(request.POST)
+        if form.is_valid():
+            header = form.cleaned_data['header']
+            description = form.cleaned_data['description']
+            post_to_share = Posts.objects.create(community_name=community_name, submitter_name=username,
+                                                 header=header, description=description,
+                                                 number_of_upvotes=0, number_of_downvotes=0,
+                                                 number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
+            post_to_share.save()
+        return render(request,'visit_community.html', {'community_name': community_name})
+    else:
+        form = TextBasedPostForm()
+
+    return render(request, 'share_post.html', {'form': form})
+

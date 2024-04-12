@@ -11,28 +11,31 @@
     <ul>
         <li>{{ rules }}</li>
     </ul>
-            <div class="post-section">
-    <h2>Recent Posts</h2>
-    {% for post in posts %}
-    <div class="post">
-        <h3>POST</h3>
-        <div class="submitter-name">{{ post.submitter_name }}</div>
-        <div class="submitter-name">{{ post.community_name }}</div>
-        <div class="post-content">{{ post.content_id }}</div>
-        <!-- Display comments for the current post -->
-        <div class="comments">
-            <h3>Comments</h3>
-            {% for comment in comments %}
-                {% if comment.post_id == post.id %}
-                    <div class="comment">
-                        <div class="commenter-email">{{ comment.commenter_email }}</div>
-                        <div class="comment-content">{{ comment.comment_content }}</div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+    <div class="post-section">
+        <h2>Recent Posts</h2>
+        {% for post in posts %}
+        <div class="post">
+            <h3>POST</h3>
+            <div class="submitter-name">{{ post.submitter_name }}</div>
+            <div class="submitter-name">{{ post.community_name }}</div>
+            <div class="post-content">{{ post.content_id }}</div>
+            <!-- Display comments for the current post -->
+            <div class="comments">
+                <h3>Comments</h3>
+                {% for comment in comments %}
+                    {% if comment.post_id == post.id %}
+                        <div class="comment">
+                            <div class="commenter-email">{{ comment.commenter_email }}</div>
+                            <div class="comment-content">{{ comment.comment_content }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+    <div class="share-post-button">
+        <a href="{% url 'share_post' community_name=community_name %}"><button>Share Post</button></a>
+    </div>
 </body>
 </html>

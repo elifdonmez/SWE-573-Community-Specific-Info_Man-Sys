@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import CheckboxInput
-from .models import RegisteredUser, Community
+from .models import RegisteredUser, Community, Posts
 
 
 class RegistrationForm(forms.ModelForm):
@@ -41,3 +41,10 @@ class EditRulesForm(forms.ModelForm):
         fields = ['rules']
 
 
+class TextBasedPostForm(forms.ModelForm):
+    header = forms.CharField(widget=forms.TextInput)
+    description = forms.CharField(widget=forms.TextInput)
+
+    class Meta:
+        model = Posts
+        fields = ['header', 'description']
