@@ -53,6 +53,11 @@
             cursor: pointer;
         }
 
+        .join-button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
         .create-community-button {
             position: absolute;
             bottom: 20px;
@@ -83,7 +88,7 @@
 </head>
 <body>
 <div class="container">
-    <button class="username"> {{ username }}</button>
+    <button class="username">{{ username }}</button>
     <form action="{% url 'search_communities' %}" class="search-form">
         <input type="text" name="q"  placeholder="Search">
         <input type="submit" value="Search">
@@ -106,11 +111,11 @@
         <div class="community">
             <div class="community-name">{{ community.name }}</div>
             <div class="community-description">{{ community.description }}</div>
-            <form action="{% url 'join_community' community.name %}" method="post">
+            <form action="{% url 'join_community' community_name=community.name %}" method="post">
                 {% csrf_token %}
-                <button class="join-button" type="submit">Join</button>
+                <button class="join-button" {% if community.name in user_communities %}disabled{% endif %} type="submit">Join</button>
             </form>
-            <form action="{% url 'visit_community' community.name %}" method="post">
+            <form action="{% url 'visit_community' community_name=community.name %}" method="post">
                 {% csrf_token %}
                 <button class="join-button" type="submit">Visit</button>
             </form>
