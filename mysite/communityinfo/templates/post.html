@@ -10,14 +10,17 @@
     <div class="post-content">{{ post.description }}</div>
     <div class="submitter-name">{{ post.submitter_name }}</div>
     <!-- Display comments for the current post -->
-    <div class="comments">
-        <h3>Comments</h3>
-        {% for comment in post.comments %}
-            <div class="comment">
-                <div class="commenter-email">{{ comment.commenter_email }}</div>
-                <div class="comment-content">{{ comment.comment_content }}</div>
+        <div class="comments">
+                <h3>Comments</h3>
+                {% for comment in comments %}
+                    {% if comment.post_id == post.id %}
+                        <div class="comment">
+                            <div class="commenter-email">{{ comment.commenter_email }}</div>
+                            <div class="comment-content">{{ comment.comment_content }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
+        </div>
 </body>
 </html>

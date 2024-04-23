@@ -166,7 +166,8 @@ def community(request, community_name):
 
 def post_view(request, post_id):
     post = get_object_or_404(Posts, id=post_id)
-    return render(request, 'post.html', {'post': post})
+    comments = Comments.objects.all()
+    return render(request, 'post.html', {'post': post, 'comments': comments })
 
 def join_community(request, community_name):
     if request.method == 'POST':

@@ -19,17 +19,6 @@
                 <div class="post-content">{{ post.header }}</div>
                 <a href="{% url 'post' post_id=post.id %}">Visit Post</a>
                 <div class="submitter-name">{{ post.submitter_name }}</div>
-                <!-- Display comments for the current post -->
-                <div class="comments">
-                    <h3>Comments</h3>
-                    {% for comment in post.comments %}
-                        <div class="comment">
-                            <div class="commenter-email">{{ comment.commenter_email }}</div>
-                            <div class="comment-content">{{ comment.comment_content }}</div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
         {% endfor %}
         <div>
             {% if username == community.creator %}
