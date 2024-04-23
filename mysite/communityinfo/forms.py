@@ -14,7 +14,7 @@ class RegistrationForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    bio = forms.CharField(widget=forms.TextInput)
+    bio = forms.CharField(widget=forms.Textarea())
     photo = forms.ImageField(widget=forms.FileInput)
     title = forms.CharField(widget=forms.TextInput)
 
@@ -34,9 +34,9 @@ class LoginForm(forms.ModelForm):
 
 class CommunityCreationForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput)
-    description = forms.CharField(widget=forms.TextInput)
+    description = forms.CharField(widget=forms.Textarea)
     privacy = forms.BooleanField(required=False, widget=forms.CheckboxInput, initial=False)
-    rules = forms.CharField(widget=forms.TextInput)
+    rules = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = Community
@@ -44,7 +44,7 @@ class CommunityCreationForm(forms.ModelForm):
 
 
 class EditRulesForm(forms.ModelForm):
-    rules = forms.CharField(widget=forms.TextInput)
+    rules = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = Community
@@ -53,7 +53,7 @@ class EditRulesForm(forms.ModelForm):
 
 class TextBasedPostForm(forms.ModelForm):
     header = forms.CharField(widget=forms.TextInput)
-    description = forms.CharField(widget=forms.TextInput)
+    description = forms.CharField(widget=forms.Textarea)
 
     class Meta:
         model = Posts
