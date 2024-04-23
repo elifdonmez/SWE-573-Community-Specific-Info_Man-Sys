@@ -95,15 +95,20 @@ def home_page(request):
 
 def community_creation(request):
     username = request.session['username']
+    is_private = False
     if request.method == 'POST':
+        if len(request.POST.getlist('privacy')) > 0:
+            is_private=request.POST.getlist('privacy')[0] == 'on'
+        else:
+            is_private= False
         community = Community.objects.create(name=request.POST.getlist('name')[0],
                                              description=request.POST.getlist('description')[0],
-                                             privacy=request.POST.getlist('privacy')[0],
+                                             privacy=is_private,
                                              rules=request.POST.getlist('rules')[0],
                                              creator=username)
         community.save()
         form = CommunityCreationForm()
-        return render(request, 'join-community.html', {'form': form})
+        return render(request, 'home.html', {'form': form})
     else:
         form = CommunityCreationForm()
         return render(request, 'community-creation.html', {'form': form})
@@ -119,49 +124,6 @@ def edit_rules(request, community_name):
     else:
         form = EditRulesForm(instance=community)
     return render(request, 'edit-rules.html', {'form': form, 'community_name': community_name, 'rules': community.rules})
-
-'''
-def join_community(request, community_name):
-    if request.method == 'POST':
-        username = request.session['username']
-        # Create a Community_Creation object
-        community_enrollment = UserCommunity.objects.create(username=username, community_name=community_name)
-        community_enrollment.save()
-        posts = Posts.objects.filter(community_name=community_name)
-        community = Community.objects.filter(name=community_name)
-        rules = community[0].rules
-        creator = community[0].creator
-
-        # Retrieve comments for each post
-        for post in posts:
-            post.comments = Comments.objects.filter(post_id=post.id)
-        comments = Comments.objects.all()
-
-        return render(request, 'join-community.html', {'community_name': community_name,
-                                                       'posts': posts, 'comments': comments,
-                                                       'rules': rules, 'username': username, 'creator': creator})
-    else:
-        # Handle the case when the request method is not POST
-        # This can include displaying an error message or redirecting the user
-        pass
-
-
-def visit_community(request, community_name):
-    if request.method == 'POST':
-        username = request.session['username']
-        posts = Posts.objects.filter(community_name=community_name)
-        # Retrieve comments for each post
-        comments = Comments.objects.all()
-        community = Community.objects.filter(name=community_name)
-        rules = community[0].rules
-
-        return render(request, 'visit-community.html', {'community_name': community_name, 'posts': posts,
-                                                        'comments': comments, 'rules': rules})
-    else:
-        # Handle the case when the request method is not POST
-        # This can include displaying an error message or redirecting the user
-        pass
-'''
 
 
 def community(request, community_name):
