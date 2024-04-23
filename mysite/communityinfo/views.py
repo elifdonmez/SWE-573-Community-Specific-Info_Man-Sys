@@ -164,6 +164,10 @@ def community(request, community_name):
         return redirect('home_page')
 
 
+def post_view(request, post_id):
+    post = get_object_or_404(Posts, id=post_id)
+    return render(request, 'post.html', {'post': post})
+
 def join_community(request, community_name):
     if request.method == 'POST':
         username = request.session.get('username')
