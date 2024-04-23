@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from communityinfo.views import register, user_login, home_page, community_creation, \
     community, follow_user, search_communities, edit_rules, share_post, join_community, visit_community, \
-    view_profile, edit_profile
+    view_profile, edit_profile, post_view
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
@@ -33,6 +33,7 @@ urlpatterns = [
     path('community/<str:community_name>/', community, name='community'),
     path('join-community/<str:community_name>/', join_community, name='join_community'),
     path('visit-community/<str:community_name>/', visit_community, name='visit_community'),
+    path('post/<int:post_id>/', post_view, name='post'),
     path('profile/', view_profile, name='view_profile'),
     path('edit-profile/', edit_profile, name='edit_profile'),
     # Update the URL pattern for the community view

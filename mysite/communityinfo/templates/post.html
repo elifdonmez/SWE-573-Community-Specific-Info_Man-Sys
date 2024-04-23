@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.header }}</title>
+</head>
+<body>
+    <h1>{{ post.header }}</h1>
+    <div class="post-content">{{ post.description }}</div>
+    <div class="submitter-name">{{ post.submitter_name }}</div>
+    <!-- Display comments for the current post -->
+        <div class="comments">
+                <h3>Comments</h3>
+                {% for comment in comments %}
+                    {% if comment.post_id == post.id %}
+                        <div class="comment">
+                            <div class="commenter-email">{{ comment.commenter_email }}</div>
+                            <div class="comment-content">{{ comment.comment_content }}</div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+</body>
+</html>
