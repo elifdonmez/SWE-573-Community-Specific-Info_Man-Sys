@@ -26,7 +26,7 @@ class Community(models.Model):
 
     name = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=600)
-    privacy = models.CharField(max_length=200)
+    privacy = models.BooleanField(max_length=200, default=False)
     rules = models.CharField(max_length=10000, default="No Rules")
     creator = models.CharField(max_length=200)
 
