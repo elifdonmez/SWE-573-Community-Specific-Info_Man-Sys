@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Community</title>
+</head>
+<body>
+    <h1>Welcome to "{{ community_name }}" community.</h1>
+    <h2>Community Rules</h2>
+    <ul>
+        <li>{{ community.rules }}</li>
+    </ul>
+    <div class="post-section">
+        <h2>Recent Posts</h2>
+        {% for post in posts %}
+            <div class="post">
+                <h3>POST</h3>
+                <div class="post-content">{{ post.header }}</div>
+                <a href="{% url 'post' post_id=post.id %}">Visit Post</a>
+            <div class="submitter-name">{{ post.submitter_name }}</div>
+        {% endfor %}
+    </div>
+    <div>
+        {% if username == creator %}
+            <a href="{% url 'edit_rules' community_name=community_name %}">Edit Rules for {{ community_name }}</a>
+        {% endif %}
+    </div>
+    {% if user_joined %}
+    <div class="share-post-button">
+        <a href="{% url 'share_post' community_name=community_name %}"><button>Share Post</button></a>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commities search</title>
+    <style>
+        .suggested-section {
+            float: left;
+            width: 300px;
+            margin-right: 20px;
+        }
+        .community {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .community-name {
+            font-weight: bold;
+        }
+        .community-description {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .join-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="suggested-section">
+    <h2>Searched Communities</h2>
+    {% for community in communities %}
+    <div class="community">
+        <div class="community-name">{{ community.name }}</div>
+        <div class="community-description">{{ community.description }}</div>
+        <form action="{% url 'join_community' community.name %}" method="post">
+            {% csrf_token %}
+            <button class="join-button" type="submit">Join</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+<div class="suggested-section">
+    <h2>Searched People </h2>
+    {% for user in users %}
+    <div class="community">
+        <div class="community-name">{{ user.email }}</div>
+        <form action="{% url 'follow_user' user.email %}" method="post">
+            {% csrf_token %}
+            <button class="join-button" type="submit">Follow</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>
