@@ -100,7 +100,16 @@ def home_page(request):
 
 def community_creation(request):
     username = request.session['username']
-    is_private = False
+    communities = Community.objects.all()
+    people = RegisteredUser.objects.all()
+    user_communities = UserCommunity.objects.filter(username=username).values_list('community_name', flat=True)
+
+    # Retrieve people the user followed
+    followed_users = UserFollower.objects.filter(username=username).values_list('follower_username', flat=True)
+
+    # Retrieve posts from communities the user joined and people the user followed
+    posts = Posts.objects.filter(
+        models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
     if request.method == 'POST':
         if len(request.POST.getlist('privacy')) > 0:
             is_private=request.POST.getlist('privacy')[0] == 'on'
@@ -113,7 +122,8 @@ def community_creation(request):
                                              creator=username)
         community.save()
         form = CommunityCreationForm()
-        return render(request, 'home.html', {'form': form})
+        return render(request, 'home.html', {'form': form, 'communities': communities, 'people': people, 'username': username,
+                                         'posts': posts, 'user_communities':user_communities})
     else:
         form = CommunityCreationForm()
         return render(request, 'community-creation.html', {'form': form})
@@ -174,14 +184,27 @@ def post_view(request, post_id):
     comments = Comments.objects.all()
     return render(request, 'post.html', {'post': post, 'comments': comments })
 
+
 def join_community(request, community_name):
     if request.method == 'POST':
+        community = get_object_or_404(Community, name=community_name)
+
+        posts = Posts.objects.filter(community_name=community_name)
+        comments = Comments.objects.all()
         username = request.session.get('username')
         user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
         if not user_joined:
             # User is not already a member of the community, add them and redirect to community page
             UserCommunity.objects.create(username=username, community_name=community_name)
-        return redirect('community', community_name=community_name)
+
+        return render(request, 'join-community.html', {
+                'community_name': community_name,
+                'community': community,
+                'user_joined': user_joined,
+                'username': username,
+                'posts': posts,
+                'comments': comments,
+            })
     else:
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user
@@ -223,7 +246,7 @@ def search_communities(request):
     if q:
         communities = Community.objects.filter(name__icontains=q)
         registered_users = RegisteredUser.objects.filter(email__icontains = q)
-        return render(request,'search-communities.html', {"users": registered_users, "communities": communities})
+        return render(request, 'search-communities.html', {"users": registered_users, "communities": communities})
     else:
         return redirect('home')
 
@@ -241,7 +264,7 @@ def share_post(request, community_name):
                                                  number_of_upvotes=0, number_of_downvotes=0,
                                                  number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
             post_to_share.save()
-        return render(request,'community.html', {'community_name': community_name})
+        return redirect('community', community_name=community_name)
     else:
         form = TextBasedPostForm()
 

@@ -113,7 +113,7 @@
         <div class="community">
             <div class="community-name">{{ community.name }}</div>
             <div class="community-description">{{ community.description }}</div>
-            <form action="{% url 'community' community_name=community.name %}" method="post">
+            <form action="{% url 'join_community' community_name=community.name %}" method="post">
                 {% csrf_token %}
                 <button class="join-button" {% if community.name in user_communities %}disabled{% endif %} type="submit">Join</button>
             </form>
