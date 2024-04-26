@@ -31,7 +31,6 @@ def view_profile(request):
     except UserProfile.DoesNotExist:
         # If the profile does not exist, redirect to the edit profile page
         return redirect('edit_profile')
-    print("user photo: " + str(user_profile.photo).split("'")[1])
     user_photo = "/media/" + str(user_profile.photo).split("'")[1]
 
     return render(request, 'profile.html', {'user_profile': user_profile, 'user_photo': user_photo})
@@ -243,11 +242,16 @@ def visit_community(request, community_name):
 
 
 def follow_user(request, username):
+
+
     if request.method == 'POST':
         follower_username = request.session['username']
         follower_creation = UserFollower.objects.create(username=username, follower_username=follower_username)
         follower_creation.save()
-        return render(request, 'follow-user.html', {'username': username})
+        user_profile = UserProfile.objects.get(email=username)
+        user_photo = "/media/" + str(user_profile.photo).split("'")[1]
+
+        return render(request, 'follow-user.html', {'user_profile': user_profile, 'user_photo': user_photo})
     else:
         # Handle the case when the request method is not POST
         # This can include displaying an error message or redirecting the user

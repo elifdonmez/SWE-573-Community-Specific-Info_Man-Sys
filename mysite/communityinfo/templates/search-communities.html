@@ -2,32 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Commities search</title>
+    <title>Communities Search</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
         .suggested-section {
             float: left;
-            width: 300px;
+            width: 45%; /* Adjust width to fit content nicely */
             margin-right: 20px;
         }
         .community {
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 10px;
+            background-color: #fff; /* Add a white background for better contrast */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
         }
         .community-name {
             font-weight: bold;
+            color: #007bff; /* Use a primary color for community names */
+            margin-bottom: 5px;
         }
         .community-description {
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         .join-button {
-            padding: 5px 10px;
+            padding: 8px 16px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .join-button:hover {
+            background-color: #0056b3; /* Darken the button on hover */
         }
     </style>
 </head>
@@ -46,7 +60,7 @@
     {% endfor %}
 </div>
 <div class="suggested-section">
-    <h2>Searched People </h2>
+    <h2>Searched People</h2>
     {% for user in users %}
     <div class="community">
         <div class="community-name">{{ user.email }}</div>

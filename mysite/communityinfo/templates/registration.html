@@ -23,6 +23,7 @@
         }
         .registration-form h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
         .registration-form form {
             margin-top: 20px;
@@ -41,11 +42,18 @@
         .registration-form button:hover {
             background-color: #0056b3;
         }
+        .registration-form a {
+            text-decoration: none;
+            color: #007bff;
+            display: block;
+            text-align: center;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 <div class="registration-form">
-    <a href="{% url 'login' %}"><button>Login</button></a>
+    <a href="{% url 'login' %}">Already have an account? Login</a>
     <h1>User Registration</h1>
     <form method="post">
         {% csrf_token %}

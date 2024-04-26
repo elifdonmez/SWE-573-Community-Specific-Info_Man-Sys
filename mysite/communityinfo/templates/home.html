@@ -5,94 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
             position: relative;
         }
-
         .username {
             position: absolute;
             top: 10px;
             right: 10px;
             font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
         }
-
-        .search {
+        .search-form {
             position: absolute;
             top: 10px;
-            right: 200px;
+            right: 100px;
             font-size: 18px;
         }
-
-        .suggested-section {
-            float: left;
-            width: 300px;
-            margin-right: 20px;
-        }
-
-        .community {
-            border: 1px solid #ccc;
+        input[type="text"] {
             padding: 10px;
-            margin-bottom: 10px;
+            width: 200px;
         }
-
-        .community-name {
-            font-weight: bold;
-        }
-
-        .community-description {
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .join-button {
-            padding: 5px 10px;
+        input[type="submit"] {
+            padding: 10px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .join-button[disabled] {
-            background-color: #ccc;
-            cursor: not-allowed;
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
         }
-
-        .create-community-button {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-        }
-
         .post-section {
-            clear: both; /* Ensure it's below other floated elements */
             margin-top: 20px;
         }
-
         .post {
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 10px;
+            background-color: #fff;
         }
-
         .submitter-name {
             font-weight: bold;
             color: #333;
         }
-
         .post-content {
             margin-top: 5px;
             color: #666;
+        }
+        .suggested-section {
+            float: left;
+            width: 300px;
+            margin-right: 20px;
+        }
+        .community {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+        .community-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .community-description {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .join-button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .join-button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .create-community-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+        .create-community-button button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <a href="{% url 'view_profile' %}">
-    <button class="username">{{ username }}</button>
-</a>
-    <form action="{% url 'search_communities' %}" class="search-form">
-        <input type="text" name="q"  placeholder="Search">
+        <button class="username">{{ username }}</button>
+    </a>
+    <form action="{% url 'search_communities' %}" class="search-form" method="get">
+        <input type="text" name="q" placeholder="Search">
         <input type="submit" value="Search">
     </form>
     <h1>Welcome to the Home Page</h1>
@@ -138,7 +165,9 @@
     </div>
 </div>
 <div class="create-community-button">
-    <a href="{% url 'create_community' %}"><button>Create Community</button></a>
+    <a href="{% url 'create_community' %}">
+        <button>Create Community</button>
+    </a>
 </div>
 </body>
 </html>

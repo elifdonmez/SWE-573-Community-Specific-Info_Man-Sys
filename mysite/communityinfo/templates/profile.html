@@ -1,19 +1,53 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 200px;
+            border-radius: 50%;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<h1>User Profile</h1>
-<p>Bio: {{ user_profile.bio }}</p>
-<p>Title: {{ user_profile.title }}</p>
-{% if user_profile.photo %}
-    <img src="{{user_photo }}" alt="Profile Photo">
-{% else %}
-    <p>No profile photo available</p>
-{% endif %}
-<a href="{% url 'edit_profile' %}">
-    <button >Edit</button>
-</a>
+    <h1>User Profile</h1>
+    <p>Bio: {{ user_profile.bio }}</p>
+    <p>Title: {{ user_profile.title }}</p>
+    {% if user_profile.photo %}
+        <img src="{{user_photo }}" alt="Profile Photo">
+    {% else %}
+        <p>No profile photo available</p>
+    {% endif %}
+    <a href="{% url 'edit_profile' %}">
+        <button>Edit</button>
+    </a>
 </body>
 </html>
