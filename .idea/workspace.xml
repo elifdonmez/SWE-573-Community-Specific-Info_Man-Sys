@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8b5b43a-56f6-4f73-bc5b-7a3fa2897435" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/mysite/media/profile_photos/earthquake_BIesXJe.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/join-community.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/join-community.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/visit-community.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/visit-community.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/communityinfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,19 +39,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/eliftop/Desktop/SWE-573-Community-Specific-Info_Man-Sys/mysite/communityinfo/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/eliftop/Desktop/SWE-573-Community-Specific-Info_Man-Sys/mysite/communityinfo/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/mysite/communityinfo/templates" />
@@ -61,7 +61,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ef7113f0-8966-4d65-b6b8-ac13f336196b" name="Changes" comment="" />
+      <changelist id="d8b5b43a-56f6-4f73-bc5b-7a3fa2897435" name="Changes" comment="" />
       <created>1712906352855</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -71,10 +71,14 @@
       <workItem from="1713203136295" duration="435000" />
       <workItem from="1713801817153" duration="477000" />
       <workItem from="1713868450471" duration="596000" />
+      <workItem from="1714160518425" duration="698000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

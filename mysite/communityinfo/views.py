@@ -122,6 +122,7 @@ def community_creation(request):
                                              creator=username)
         community.save()
         form = CommunityCreationForm()
+        UserCommunity.objects.create(username=username, community_name=community.name)
         return render(request, 'home.html', {'form': form, 'communities': communities, 'people': people, 'username': username,
                                          'posts': posts, 'user_communities':user_communities})
     else:
@@ -231,7 +232,7 @@ def visit_community(request, community_name):
     posts = Posts.objects.filter(community_name=community_name)
     comments = Comments.objects.all()
 
-    return render(request, 'visit-community.html', {
+    return render(request, 'join-community.html', {
         'community_name': community_name,
         'community': community,
         'user_joined': user_joined,
