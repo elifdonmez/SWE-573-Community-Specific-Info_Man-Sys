@@ -49,9 +49,10 @@ def edit_profile(request):
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=user_profile)
-        if form.is_valid():
-            # Update the user profile fields with the new data
-            form.save()
+        if form.is_valid() and request.FILES is not None:
+            if len(request.FILES) > 0:
+                # Update the user profile fields with the new data
+                form.save()
             return redirect('view_profile')
     else:
         # Populate the form with the existing user profile data
