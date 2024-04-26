@@ -61,18 +61,22 @@ def edit_profile(request):
 
 
 def user_login(request):
+    form = LoginForm()
     if request.method == 'POST':
-        user = authenticate(username=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
-        if user is not None and check_password(request.POST.getlist('password')[0], user.password ):
-            request.session['user_id'] = user.id
-            request.session['username'] = user.username
-            # Redirect to a success page
-            return redirect("home_page")
+        if len(request.POST.getlist('email')) > 0 and len(request.POST.getlist('password')) > 0:
+            user = authenticate(username=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
+            if user is not None and check_password(request.POST.getlist('password')[0], user.password ):
+                request.session['user_id'] = user.id
+                request.session['username'] = user.username
+                # Redirect to a success page
+                return redirect("home_page")
+            else:
+                # Invalid login
+                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid email or password.'})
         else:
             # Invalid login
-            return render(request, 'login.html', {'error_message': 'Invalid email or password.'})
+            return render(request, 'login.html', {'form': form, 'error_message': 'Invalid email or password.'})
     else:
-        form = LoginForm()
         return render(request, 'login.html', {'form': form})
 
 

@@ -5,46 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef7113f0-8966-4d65-b6b8-ac13f336196b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SWE-573-Community-Specific-Info_Man-Sys.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/forms.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/community-creation.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/community.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/edit-profile.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/edit-rules.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/follow-user.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/home.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/join-community.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/post.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/profile.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/registration.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/search-communities.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/share-post.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/visit-community.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/manage.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/media/profile_photos/ER_Diagram.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/media/profile_photos/ER_Diagram_g3OL7Ke.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/media/profile_photos/earthquake.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/media/profile_photos/earthquake_1NodYWj.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mydatabase" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mysite/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mysite/asgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mysite/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mysite/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mysite/wsgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +25,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/django/forms/fields.py" root0="SKIP_INSPECTION" />
+    <setting file="file:///Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages/django/forms/widgets.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
