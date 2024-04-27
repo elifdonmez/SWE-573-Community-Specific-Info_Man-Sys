@@ -9,6 +9,7 @@ class RegisteredUser(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
 
+
 class UserProfile(models.Model):
 
     class Meta:
@@ -18,6 +19,7 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=1000)
     photo = models.ImageField(upload_to='profile_photos', blank=True, null=True)
     title = models.CharField(max_length=255)
+
 
 class Community(models.Model):
 
@@ -63,6 +65,7 @@ class Posts(models.Model):
     number_of_smiles = models.IntegerField()
     number_of_hearts = models.IntegerField()
     number_of_sadfaces = models.IntegerField()
+
 
 class Comments(models.Model):
 
