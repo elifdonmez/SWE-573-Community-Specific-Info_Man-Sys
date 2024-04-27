@@ -37,6 +37,7 @@ def view_profile(request):
 
 
 def edit_profile(request):
+    # Get the current user
     username = request.session['username']
 
     try:
@@ -63,6 +64,7 @@ def edit_profile(request):
 def user_login(request):
     form = LoginForm()
     if request.method == 'POST':
+        # If user is registered, authanticate to the application
         if len(request.POST.getlist('email')) > 0 and len(request.POST.getlist('password')) > 0:
             user = authenticate(username=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
             if user is not None and check_password(request.POST.getlist('password')[0], user.password ):
@@ -81,31 +83,36 @@ def user_login(request):
 
 
 def home_page(request):
+    # Get the current user
     username = request.session['username']
+    # Get all existing communities
     communities = Community.objects.all()
+    # Get all registered users
     people = RegisteredUser.objects.all()
+    # Filter joined communities
     user_communities = UserCommunity.objects.filter(username=username).values_list('community_name', flat=True)
-
     # Retrieve people the user followed
     followed_users = UserFollower.objects.filter(follower_username=username).values_list('username', flat=True)
-
     # Retrieve posts from communities the user joined and people the user followed
     posts = Posts.objects.filter(
         models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
 
     return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username,
-                                         'posts': posts, 'user_communities':user_communities, 'followed_users': followed_users})
+                                         'posts': posts, 'user_communities':user_communities,
+                                         'followed_users': followed_users})
 
 
 def community_creation(request):
+    # Get the current user
     username = request.session['username']
+    # Get all existing communities
     communities = Community.objects.all()
+    # Filter joined communities
     people = RegisteredUser.objects.all()
+    # Filter joined communities
     user_communities = UserCommunity.objects.filter(username=username).values_list('community_name', flat=True)
-
     # Retrieve people the user followed
     followed_users = UserFollower.objects.filter(username=username).values_list('follower_username', flat=True)
-
     # Retrieve posts from communities the user joined and people the user followed
     posts = Posts.objects.filter(
         models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
@@ -114,6 +121,7 @@ def community_creation(request):
             is_private=request.POST.getlist('privacy')[0] == 'on'
         else:
             is_private= False
+        # create community object
         community = Community.objects.create(name=request.POST.getlist('name')[0],
                                              description=request.POST.getlist('description')[0],
                                              privacy=is_private,
@@ -130,11 +138,15 @@ def community_creation(request):
 
 
 def edit_rules(request, community_name):
+    # Get current community object
     community = Community.objects.get(name=community_name)
-
+    # Get posts of the current community
     posts = Posts.objects.filter(community_name=community_name)
+    # Get all post comments
     comments = Comments.objects.all()
+    # Get username
     username = request.session.get('username')
+    # Get communities user joined
     user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
     if request.method == 'POST':
         form = EditRulesForm(request.POST, instance=community)
@@ -150,12 +162,16 @@ def edit_rules(request, community_name):
             })  # Redirect to home page or wherever you want after editing rules
     else:
         form = EditRulesForm(instance=community)
-    return render(request, 'edit-rules.html', {'form': form, 'community_name': community_name, 'rules': community.rules})
+    return render(request, 'edit-rules.html', {'form': form, 'community_name': community_name,
+                                               'rules': community.rules})
 
 
 def community(request, community_name):
+    # Get username
     username = request.session.get('username')
+    # Get communities user joined
     user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
+    # Get current community object
     community = Community.objects.get(name=community_name)
 
     if user_joined:
@@ -199,11 +215,15 @@ def post_view(request, post_id):
 
 def join_community(request, community_name):
     if request.method == 'POST':
+        # Get current community
         community = get_object_or_404(Community, name=community_name)
-
+        # Get posts of the current community
         posts = Posts.objects.filter(community_name=community_name)
+        # Get comments for the current post
         comments = Comments.objects.all()
+        # Get authenticated users' name
         username = request.session.get('username')
+        # Get list of communities user joined.
         user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
         if not user_joined:
             # User is not already a member of the community, add them and redirect to community page
@@ -218,17 +238,19 @@ def join_community(request, community_name):
                 'comments': comments,
             })
     else:
-        # Handle the case when the request method is not POST
-        # This can include displaying an error message or redirecting the user
         pass
 
 
 def visit_community(request, community_name):
+    # Get username
     username = request.session.get('username')
+    # Get list of communities user joined
     user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
+    # Get current community object
     community = get_object_or_404(Community, name=community_name)
-
+    # Get posts of the current community
     posts = Posts.objects.filter(community_name=community_name)
+    # Get comments of the current post
     comments = Comments.objects.all()
 
     return render(request, 'join-community.html', {
@@ -243,16 +265,16 @@ def visit_community(request, community_name):
 
 def follow_user(request, username):
     if request.method == 'POST':
+        # Get username
         follower_username = request.session['username']
+        # Create follower object
         follower_creation = UserFollower.objects.create(username=username, follower_username=follower_username)
-
+        # Get user profile to display
         user_profile = UserProfile.objects.get(email=username)
         user_photo = "/media/" + str(user_profile.photo).split("'")[1]
 
         return render(request, 'follow-user.html', {'user_profile': user_profile, 'user_photo': user_photo})
     else:
-        # Handle the case when the request method is not POST
-        # This can include displaying an error message or redirecting the user
         pass
 
 
@@ -261,12 +283,13 @@ def search_communities(request):
     if q:
         communities = Community.objects.filter(name__icontains=q)
         registered_users = RegisteredUser.objects.filter(email__icontains = q)
-        return render(request, 'search-communities.html', {"users": registered_users, "communities": communities})
+        return render(request, 'search.html', {"users": registered_users, "communities": communities})
     else:
         return redirect('home')
 
 
 def share_post(request, community_name):
+    # Get username
     username = request.session.get('username')
 
     if request.method == 'POST':

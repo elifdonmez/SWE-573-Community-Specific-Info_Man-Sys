@@ -46,7 +46,7 @@
     <p>Bio: {{ user_profile.bio }}</p>
     <p>Title: {{ user_profile.title }}</p>
     {% if user_profile.photo %}
-        <img src="{{user_photo }}" alt="Profile Photo">
+        <img src="{{ user_photo }}" alt="Profile Photo">
     {% else %}
         <p>No profile photo available</p>
     {% endif %}
