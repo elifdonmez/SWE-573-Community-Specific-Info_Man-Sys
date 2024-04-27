@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8b5b43a-56f6-4f73-bc5b-7a3fa2897435" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/mysite/media/profile_photos/earthquake_t6wOUc1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/media/profile_photos/earthquake_sdQshtt.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/community-creation.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/community-creation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/community.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/community.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/edit-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/edit-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/edit-rules.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/edit-rules.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/follow-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/follow-user.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/join-community.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/join-community.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/post.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/post.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/search-communities.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/search-communities.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/share-post.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/share-post.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/communityinfo/templates/visit-community.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/templates/visit-community.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/communityinfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/communityinfo/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,20 +41,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/eliftop/Desktop/SWE-573-Community-Specific-Info_Man-Sys/mysite/communityinfo/templates",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/eliftop/Desktop/SWE-573-Community-Specific-Info_Man-Sys/mysite/communityinfo/templates&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/mysite/communityinfo/templates" />
@@ -85,7 +73,8 @@
       <workItem from="1713203136295" duration="435000" />
       <workItem from="1713801817153" duration="477000" />
       <workItem from="1713868450471" duration="596000" />
-      <workItem from="1714160518425" duration="2530000" />
+      <workItem from="1714160518425" duration="2907000" />
+      <workItem from="1714210298124" duration="1817000" />
     </task>
     <servers />
   </component>
