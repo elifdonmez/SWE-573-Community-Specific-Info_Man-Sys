@@ -87,14 +87,14 @@ def home_page(request):
     user_communities = UserCommunity.objects.filter(username=username).values_list('community_name', flat=True)
 
     # Retrieve people the user followed
-    followed_users = UserFollower.objects.filter(username=username).values_list('follower_username', flat=True)
+    followed_users = UserFollower.objects.filter(follower_username=username).values_list('username', flat=True)
 
     # Retrieve posts from communities the user joined and people the user followed
     posts = Posts.objects.filter(
         models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
 
     return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username,
-                                         'posts': posts, 'user_communities':user_communities})
+                                         'posts': posts, 'user_communities':user_communities, 'followed_users': followed_users})
 
 
 def community_creation(request):
@@ -242,12 +242,10 @@ def visit_community(request, community_name):
 
 
 def follow_user(request, username):
-
-
     if request.method == 'POST':
         follower_username = request.session['username']
         follower_creation = UserFollower.objects.create(username=username, follower_username=follower_username)
-        follower_creation.save()
+
         user_profile = UserProfile.objects.get(email=username)
         user_photo = "/media/" + str(user_profile.photo).split("'")[1]
 
