@@ -3,6 +3,8 @@
 Welcome to the Community Specific Information Management System! 
 This project allows users to create and join communities, share posts, and interact with other users.
 
+**Deployed Application:** https://comm-image-5ptp2bxnra-oe.a.run.app/
+
 ## Overview
 
 This platform enables users to:
