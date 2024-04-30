@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container_x {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container_x">
+    <h1>Create Community</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_name">Community Name:</label>
+        <input type="text" id="id_name" name="name" required>
+        <label for="id_description">Description:</label>
+        <textarea id="id_description" name="description" rows="4" required></textarea>
+        <label for="id_privacy">Privacy:</label>
+        <input type="checkbox" id="id_privacy" name="privacy">
+        <label for="id_rules">Rules:</label>
+        <textarea id="id_rules" name="rules" rows="4" required></textarea>
+        <button type="submit">Create</button>
+    </form>
+</div>
+</body>
+</html>
