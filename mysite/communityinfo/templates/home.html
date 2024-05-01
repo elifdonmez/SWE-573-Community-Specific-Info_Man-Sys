@@ -132,7 +132,8 @@
         <div class="post">
             <div class="submitter-name">Community: {{ post.community_name }}</div>
             <div class="post-content">{{ post.header }}</div>
-            <div class="submitter-name">Posted by: {{ post.submitter_name }}</div>
+            <a href="{% url 'post' post_id=post.id %}">Visit Post</a>
+            <div class="submitter-name">Posted by: {{ post.submitter_name }} - {{ post.creation_date}}</div>
         </div>
         {% endfor %}
     </div>
