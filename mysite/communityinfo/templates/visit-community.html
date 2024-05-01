@@ -68,7 +68,7 @@
         {% for post in posts %}
             <div class="post">
                 <div class="post-content">{{ post.header }}</div>
-                <div class="submitter-name">Posted by: {{ post.submitter_name }}</div>
+                <div class="submitter-name">Submitted by: {{ post.submitter_name }}  - {{ post.creation_date}}</div>
                 <a href="{% url 'post' post_id=post.id %}">Visit Post</a>
             </div>
         {% endfor %}
