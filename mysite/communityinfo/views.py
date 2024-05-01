@@ -200,7 +200,7 @@ def community(request, community_name):
             'username': username,
             'posts': posts,
             'comments': comments,
-            'form': form,
+            'form': form
         })
     else:
         # If the user hasn't joined the community, redirect them to the home page or show an error message
@@ -235,7 +235,7 @@ def join_community(request, community_name):
                 'user_joined': user_joined,
                 'username': username,
                 'posts': posts,
-                'comments': comments,
+                'comments': comments
             })
     else:
         pass
@@ -252,7 +252,7 @@ def visit_community(request, community_name):
     posts = Posts.objects.filter(community_name=community_name)
     # Get comments of the current post
     comments = Comments.objects.all()
-
+    print("ID:" + str(posts[0].id))
     return render(request, 'join-community.html', {
         'community_name': community_name,
         'community': community,
@@ -301,7 +301,6 @@ def share_post(request, community_name):
                                                  header=header, description=description,
                                                  number_of_upvotes=0, number_of_downvotes=0,
                                                  number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
-            post_to_share.save()
         return redirect('community', community_name=community_name)
     else:
         form = TextBasedPostForm()

@@ -78,7 +78,7 @@
                 <h3>POST</h3>
                 <div class="post-content">{{ post.header }}</div>
                 <a href="{% url 'post' post_id=post.id %}">Visit Post</a>
-                <div class="submitter-name">Submitted by: {{ post.submitter_name }}</div>
+                <div class="submitter-name">Submitted by: {{ post.submitter_name }}  - {{ post.creation_date}}</div>
             </div>
         {% endfor %}
         <div>
