@@ -290,23 +290,27 @@ def search_communities(request):
 
 
 def share_post(request, community_name):
-    # Get username
-    username = request.session.get('username')
-
     if request.method == 'POST':
-        form = TextBasedPostForm(request.POST)
-        if form.is_valid():
-            header = form.cleaned_data['header']
-            description = form.cleaned_data['description']
-            post_to_share = Posts.objects.create(community_name=community_name, submitter_name=username,
-                                                 header=header, description=description,
-                                                 number_of_upvotes=0, number_of_downvotes=0,
-                                                 number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
-        return redirect('community', community_name=community_name)
-    else:
-        form = TextBasedPostForm()
+        header = request.POST.get('header')
+        description = request.POST.get('description')
+        template_id = request.POST.get('template')
 
-    return render(request, 'share-post.html', {'form': form})
+        # Get selected template from database
+        try:
+            template = PostTemplate.objects.get(pk=template_id)
+            # Process the selected template and create a post
+            # Example: create a post using the template's fields
+            # post = Post(header=header, description=description, field1=template.field1, ...)
+            # post.save()
+            return redirect('home')  # Redirect to home page after posting
+        except PostTemplate.DoesNotExist:
+            # Handle template not found error
+            pass
+
+    # Fetch available templates for the dropdown
+    templates = PostTemplate.objects.all()  # You may filter this query as needed
+
+    return render(request, 'share-post.html', {'templates': templates})
 
 
 def create_post_template(request, community_id):

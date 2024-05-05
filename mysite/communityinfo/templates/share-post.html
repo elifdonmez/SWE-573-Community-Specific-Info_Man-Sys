@@ -27,7 +27,7 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
-        input[type="text"], textarea {
+        input[type="text"], textarea, select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -59,6 +59,12 @@
         <input type="text" id="id_header" name="header" placeholder="Enter header..." required>
         <label for="id_description">Description:</label>
         <textarea id="id_description" name="description" placeholder="Enter description..." rows="6" required></textarea>
+        <label for="id_template">Select a Post Template:</label>
+        <select id="id_template" name="template">
+            {% for template in templates %}
+                <option value="{{ template.id }}">{{ template.template_name }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">Post</button>
     </form>
 </body>
