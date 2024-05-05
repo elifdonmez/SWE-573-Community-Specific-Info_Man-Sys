@@ -85,6 +85,7 @@
             <!-- Only community creator can edit community rules -->
             {% if username == community.creator %}
                 <a href="{% url 'edit_rules' community_name=community.name %}">Edit Rules for {{ community.name }}</a>
+                <a href="{% url 'create_post_template' community_id=community.id %}" style="margin-left: 10px;">Create Post Template</a>
             {% endif %}
         </div>
     </div>

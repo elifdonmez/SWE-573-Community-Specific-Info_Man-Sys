@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Post Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create Post Template</h1>
+    <form method="post" id="postTemplateForm">
+        {% csrf_token %}
+        <label for="id_name">Template Name:</label>
+        <input type="text" id="id_name" name="name" maxlength="100">
+
+        <div id="dynamicFields"></div>
+        <button type="button" id="addFieldButton">Add Field</button>
+        <button type="submit">Save Template</button>
+    </form>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.getElementById('addFieldButton');
+    const container = document.getElementById('dynamicFields');
+    let dropdownCount = 0;
+
+    addButton.addEventListener('click', function() {
+        dropdownCount++;
+        const newDropdown = document.createElement('select');
+        newDropdown.name = `fields_${dropdownCount}`;
+        newDropdown.classList.add('form-control');  // Apply custom form-control class if needed
+
+        // Add options to the dropdown
+        const options = [
+            { value: 'description', label: 'Description' },
+            { value: 'image_url', label: 'Image URL' },
+            { value: 'video_url', label: 'Video URL' },
+            { value: 'geolocation', label: 'Geolocation' },
+            { value: 'date_time_fields', label: 'Date-Time Field' },
+            { value: 'audio_url', label: 'Audio URL' }
+        ];
+        options.forEach(option => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option.value;
+            optionElement.textContent = option.label;
+            newDropdown.appendChild(optionElement);
+        });
+
+        // Append the new dropdown to the container
+        container.appendChild(newDropdown);
+    });
+
+    // Handle form submission
+    const form = document.getElementById('postTemplateForm');
+    form.addEventListener('submit', function(event) {
+        const selectedFields = Array.from(container.querySelectorAll('select')).map(select => select.value);
+        selectedFields.forEach(value => {
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'fields';
+            hiddenInput.value = value;
+            form.appendChild(hiddenInput);
+        });
+    });
+});
+    </script>
+</body>
+</html>

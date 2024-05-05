@@ -9,7 +9,7 @@ from django.views.static import serve
 
 from communityinfo.views import register, user_login, home_page, community_creation, \
     community, follow_user, search_communities, edit_rules, share_post, join_community, visit_community, \
-    view_profile, edit_profile, post_view
+    view_profile, edit_profile, post_view, create_post_template
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
@@ -26,7 +26,9 @@ urlpatterns = [
     path('post/<int:post_id>/', post_view, name='post'),
     path('profile/', view_profile, name='view_profile'),
     path('edit-profile/', edit_profile, name='edit_profile'),
+    path('create_post_template/<str:community_id>/', create_post_template, name='create_post_template'),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+
 ]
 

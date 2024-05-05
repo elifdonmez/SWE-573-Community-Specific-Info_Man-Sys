@@ -2,8 +2,9 @@ from django.contrib.auth import authenticate
 from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
-from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm, ProfileForm
-from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments, UserProfile
+from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm, ProfileForm, \
+    PostTemplateForm
+from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments, UserProfile, PostTemplate
 from django.contrib.auth.models import User
 
 
@@ -306,4 +307,28 @@ def share_post(request, community_name):
         form = TextBasedPostForm()
 
     return render(request, 'share-post.html', {'form': form})
+
+
+def create_post_template(request, community_id):
+    if request.method == 'POST':
+        form = PostTemplateForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            selected_fields = request.POST.getlist('fields')
+
+            # Join selected fields into a comma-separated string
+            fields_str = ','.join(selected_fields)
+
+            # Save the template name and selected fields to the database
+            template = PostTemplate.objects.create(template_name=name, community_id=community_id, fields=fields_str)
+            template.save()
+
+            return redirect('community_page')  # Redirect to community page after saving
+        else:
+            # Form is not valid, print errors for debugging
+            print(f"Form errors: {form.errors}")
+    else:
+        form = PostTemplateForm()
+
+    return render(request, 'create_post_template.html', {'form': form})
 

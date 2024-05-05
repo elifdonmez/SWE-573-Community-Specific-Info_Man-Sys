@@ -68,6 +68,18 @@ class Posts(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)  # Automatically set on creation
 
 
+class PostTemplate(models.Model):
+    class Meta:
+        db_table = 'post_templates'
+
+    template_name = models.CharField(max_length=255)
+    community_id = models.IntegerField(max_length=255)
+    fields = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Comments(models.Model):
 
     class Meta:

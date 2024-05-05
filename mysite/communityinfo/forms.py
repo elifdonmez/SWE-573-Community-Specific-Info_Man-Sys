@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import CheckboxInput
-from .models import RegisteredUser, Community, Posts, UserProfile
+from .models import RegisteredUser, Community, Posts, UserProfile, PostTemplate
 
 
 class RegistrationForm(forms.ModelForm):
@@ -58,3 +58,24 @@ class TextBasedPostForm(forms.ModelForm):
     class Meta:
         model = Posts
         fields = ['header', 'description']
+
+
+class PostTemplateForm(forms.Form):
+    name = forms.CharField(label='Template Name', max_length=100)
+    fields = forms.MultipleChoiceField(
+        label='Select Fields',
+        choices=[
+            ('description', 'Description'),
+            ('image_url', 'Image URL'),
+            ('video_url', 'Video URL'),
+            ('geolocation', 'Geolocation'),
+            ('date_time_fields', 'Date-Time Field'),
+            ('audio_url', 'Audio URL')
+        ],
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = PostTemplate
+        fields = ['name']
+
