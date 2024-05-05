@@ -74,8 +74,8 @@ class PostTemplateForm(forms.Form):
         ],
         widget=forms.SelectMultiple(attrs={'class': 'form-control'})
     )
+    is_mandatory = forms.BooleanField(required=False, widget=forms.CheckboxInput, initial=False)
 
     class Meta:
         model = PostTemplate
         fields = ['name']
-

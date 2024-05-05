@@ -314,10 +314,17 @@ def create_post_template(request, community_id):
         form = PostTemplateForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            selected_fields = request.POST.getlist('fields')
 
-            # Join selected fields into a comma-separated string
-            fields_str = ','.join(selected_fields)
+            # Get selected fields and their mandatory status from the form data
+            selected_fields = request.POST.getlist('fields')
+            mandatory_fields = request.POST.getlist('mandatory_fields')
+
+            # Combine selected fields and their mandatory status
+            combined_fields = []
+            for field, mandatory in zip(selected_fields, mandatory_fields):
+                combined_fields.append(f"{field}:{mandatory}")
+
+            fields_str = ','.join(combined_fields)
 
             # Save the template name and selected fields to the database
             template = PostTemplate.objects.create(template_name=name, community_id=community_id, fields=fields_str)
@@ -331,4 +338,3 @@ def create_post_template(request, community_id):
         form = PostTemplateForm()
 
     return render(request, 'create_post_template.html', {'form': form})
-
