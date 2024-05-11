@@ -42,7 +42,12 @@
 </head>
 <body>
     <h1>{{ post.header }}</h1>
-    <div class="post-content">{{ post.description }}</div>
+    {% if post.description %}<div class="post-content">Description: {{ post.description }}</div> {% endif %}
+    {% if post.image_url %}<div class="post-content">Image URL: {{ post.image_url }}</div> {% endif %}
+    {% if post.video_url %}<div class="post-content">Video URL: {{ post.video_url }}</div> {% endif %}
+    {% if post.audio_url %}<div class="post-content">Audio URL: {{ post.audio_url }}</div> {% endif %}
+    {% if post.geolocation %}<div class="post-content">Location: {{ post.geolocation }}</div> {% endif %}
+    {% if post.date_time_field %}<div class="post-content">Date Time: {{ post.date_time_field }}</div> {% endif %}
     <div class="submitter-name">Submitted by: {{ post.submitter_name }}</div>
     <!-- Display comments for the current post -->
     <div class="comments">
