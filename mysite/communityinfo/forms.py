@@ -105,7 +105,7 @@ class CustomTemplatePostForm(forms.ModelForm):
             elif field_name == 'geolocation':
                 self.fields['geolocation'] = forms.CharField(widget=forms.TextInput, label=field_label,
                                                              required=required)
-            elif field_name == 'date_time':
+            elif field_name == 'date_time_field':
                 self.fields['date_time_field'] = forms.DateTimeField(widget=forms.DateTimeInput, label=field_label,
                                                                      required=required)
             elif field_name == 'audio_url':
@@ -128,7 +128,7 @@ class PostTemplateForm(forms.Form):
             ('image_url', 'Image URL'),
             ('video_url', 'Video URL'),
             ('geolocation', 'Geolocation'),
-            ('date_time_fields', 'Date-Time Field'),
+            ('date_time_field', 'Date-Time'),
             ('audio_url', 'Audio URL')
         ],
         widget=forms.SelectMultiple(attrs={'class': 'form-control'})

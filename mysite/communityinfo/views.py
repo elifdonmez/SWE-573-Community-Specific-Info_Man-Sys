@@ -337,10 +337,7 @@ def create_post_template(request, community_id):
 
             # Get selected fields and their mandatory status from the form data
             selected_fields = request.POST.getlist('fields')
-            print(">>>>")
-            print(selected_fields)
             mandatory_fields = request.POST.getlist('mandatory_fields')
-            print(mandatory_fields)
 
             # Combine selected fields and their mandatory status
             combined_fields = []
