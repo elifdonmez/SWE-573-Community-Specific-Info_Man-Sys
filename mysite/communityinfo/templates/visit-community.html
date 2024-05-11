@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Community</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .post-section {
+            margin-top: 30px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+        .post-content {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .submitter-name {
+            color: #666;
+        }
+        .edit-rules-link, .share-post-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .edit-rules-link a, .share-post-button a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            border: 1px solid #007bff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .edit-rules-link a:hover, .share-post-button a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to "{{ community_name }}" community.</h1>
+    <h2>Community Rules</h2>
+    <ul>
+        <li>{{ community.rules }}</li>
+    </ul>
+    <div class="post-section">
+        <h2>Recent Posts</h2>
+        {% for post in posts %}
+            <div class="post">
+                <div class="post-content">{{ post.header }}</div>
+                <a href="{% url 'post' post_id=post.id %}">Visit Post</a>
+                <div class="submitter-name">Submitted by: {{ post.submitter_name }}  - {{ post.creation_date}}</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="edit-rules-link">
+        {% if username == creator %}
+            <a href="{% url 'edit_rules' community_name=community_name %}">Edit Rules for {{ community_name }}</a>
+            <a href="{% url 'create_post_template' community_id=community.id %}">Create Post Template</a>
+        {% endif %}
+    </div>
+    {% if user_joined %}
+        <div class="share-post-button">
+            <a href="{% url 'share_post' community_name=community_name %}">Share Post</a>
+        </div>
+    {% endif %}
+</body>
+</html>
