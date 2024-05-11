@@ -31,6 +31,7 @@ class Community(models.Model):
     privacy = models.BooleanField(max_length=200, default=False)
     rules = models.CharField(max_length=10000, default="No Rules")
     creator = models.CharField(max_length=200)
+    id = models.IntegerField(primary_key=True, unique=True)
 
 
 class UserCommunity(models.Model):
@@ -60,6 +61,11 @@ class Posts(models.Model):
     submitter_name = models.CharField(max_length=600)
     header = models.CharField(max_length=500)
     description = models.CharField(max_length=1000)
+    image_url = models.CharField(max_length=1000)
+    video_url = models.CharField(max_length=1000)
+    geolocation = models.CharField(max_length=1000)
+    date_time_field = models.DateTimeField(max_length=1000)
+    audio_url = models.CharField(max_length=1000)
     number_of_upvotes = models.IntegerField()
     number_of_downvotes = models.IntegerField()
     number_of_smiles = models.IntegerField()

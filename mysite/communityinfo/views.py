@@ -1,9 +1,10 @@
+from django import forms
 from django.contrib.auth import authenticate
 from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm, ProfileForm, \
-    PostTemplateForm
+    PostTemplateForm, CustomTemplatePostForm
 from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments, UserProfile, PostTemplate
 from django.contrib.auth.models import User
 
@@ -68,7 +69,7 @@ def user_login(request):
         # If user is registered, authanticate to the application
         if len(request.POST.getlist('email')) > 0 and len(request.POST.getlist('password')) > 0:
             user = authenticate(username=request.POST.getlist('email')[0], password=request.POST.getlist('password')[0])
-            if user is not None and check_password(request.POST.getlist('password')[0], user.password ):
+            if user is not None and check_password(request.POST.getlist('password')[0], user.password):
                 request.session['user_id'] = user.id
                 request.session['username'] = user.username
                 # Redirect to a success page
@@ -99,7 +100,7 @@ def home_page(request):
         models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
 
     return render(request, 'home.html', {'communities': communities, 'people': people, 'username': username,
-                                         'posts': posts, 'user_communities':user_communities,
+                                         'posts': posts, 'user_communities': user_communities,
                                          'followed_users': followed_users})
 
 
@@ -119,9 +120,9 @@ def community_creation(request):
         models.Q(community_name__in=user_communities) | models.Q(submitter_name__in=followed_users))
     if request.method == 'POST':
         if len(request.POST.getlist('privacy')) > 0:
-            is_private=request.POST.getlist('privacy')[0] == 'on'
+            is_private = request.POST.getlist('privacy')[0] == 'on'
         else:
-            is_private= False
+            is_private = False
         # create community object
         community = Community.objects.create(name=request.POST.getlist('name')[0],
                                              description=request.POST.getlist('description')[0],
@@ -131,8 +132,9 @@ def community_creation(request):
         community.save()
         form = CommunityCreationForm()
         UserCommunity.objects.create(username=username, community_name=community.name)
-        return render(request, 'home.html', {'form': form, 'communities': communities, 'people': people, 'username': username,
-                                         'posts': posts, 'user_communities':user_communities})
+        return render(request, 'home.html',
+                      {'form': form, 'communities': communities, 'people': people, 'username': username,
+                       'posts': posts, 'user_communities': user_communities})
     else:
         form = CommunityCreationForm()
         return render(request, 'community-creation.html', {'form': form})
@@ -211,7 +213,7 @@ def community(request, community_name):
 def post_view(request, post_id):
     post = get_object_or_404(Posts, id=post_id)
     comments = Comments.objects.all()
-    return render(request, 'post.html', {'post': post, 'comments': comments })
+    return render(request, 'post.html', {'post': post, 'comments': comments})
 
 
 def join_community(request, community_name):
@@ -231,13 +233,13 @@ def join_community(request, community_name):
             UserCommunity.objects.create(username=username, community_name=community_name)
 
         return render(request, 'join-community.html', {
-                'community_name': community_name,
-                'community': community,
-                'user_joined': user_joined,
-                'username': username,
-                'posts': posts,
-                'comments': comments
-            })
+            'community_name': community_name,
+            'community': community,
+            'user_joined': user_joined,
+            'username': username,
+            'posts': posts,
+            'comments': comments
+        })
     else:
         pass
 
@@ -283,30 +285,48 @@ def search_communities(request):
     q = request.GET.get('q')
     if q:
         communities = Community.objects.filter(name__icontains=q)
-        registered_users = RegisteredUser.objects.filter(email__icontains = q)
+        registered_users = RegisteredUser.objects.filter(email__icontains=q)
         return render(request, 'search.html', {"users": registered_users, "communities": communities})
     else:
         return redirect('home')
 
 
 def share_post(request, community_name):
-    # Get username
     username = request.session.get('username')
+    community = Community.objects.get(name=community_name)
+    templates = PostTemplate.objects.filter(community_id=community.id)
 
     if request.method == 'POST':
-        form = TextBasedPostForm(request.POST)
-        if form.is_valid():
-            header = form.cleaned_data['header']
-            description = form.cleaned_data['description']
-            post_to_share = Posts.objects.create(community_name=community_name, submitter_name=username,
-                                                 header=header, description=description,
-                                                 number_of_upvotes=0, number_of_downvotes=0,
-                                                 number_of_smiles=0, number_of_hearts=0, number_of_sadfaces=0)
-        return redirect('community', community_name=community_name)
-    else:
-        form = TextBasedPostForm()
+        template_id = request.POST.get('template')
 
-    return render(request, 'share-post.html', {'form': form})
+        if template_id:
+            selected_template = PostTemplate.objects.get(pk=template_id)
+            form = CustomTemplatePostForm(request.POST, template=selected_template)
+        else:
+            # Create new post
+            new_post = Posts.objects.create(
+                community_name=community_name,
+                submitter_name=username,
+                header=request.POST.get('header'),
+                description=request.POST.get('description'),
+                image_url=request.POST.get('image_url'),
+                video_url=request.POST.get('video_url'),
+                geolocation=request.POST.get('geolocation'),
+                date_time_field=request.POST.get('date_time_field'),
+                audio_url=request.POST.get('audio_url'),
+                number_of_upvotes=0,
+                number_of_downvotes=0,
+                number_of_smiles=0,
+                number_of_hearts=0,
+                number_of_sadfaces=0
+            )
+
+            return redirect('community', community_name=community_name)
+    else:
+        # Handle GET request to render initial form
+        form = TextBasedPostForm()  # Use default form for initial GET request
+
+    return render(request, 'share-post.html', {'form': form, 'templates': templates})
 
 
 def create_post_template(request, community_id):
@@ -314,10 +334,20 @@ def create_post_template(request, community_id):
         form = PostTemplateForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            selected_fields = request.POST.getlist('fields')
 
-            # Join selected fields into a comma-separated string
-            fields_str = ','.join(selected_fields)
+            # Get selected fields and their mandatory status from the form data
+            selected_fields = request.POST.getlist('fields')
+            print(">>>>")
+            print(selected_fields)
+            mandatory_fields = request.POST.getlist('mandatory_fields')
+            print(mandatory_fields)
+
+            # Combine selected fields and their mandatory status
+            combined_fields = []
+            for field, mandatory in zip(selected_fields, mandatory_fields):
+                combined_fields.append(f"{field}:{mandatory}")
+
+            fields_str = ','.join(combined_fields)
 
             # Save the template name and selected fields to the database
             template = PostTemplate.objects.create(template_name=name, community_id=community_id, fields=fields_str)
@@ -331,4 +361,3 @@ def create_post_template(request, community_id):
         form = PostTemplateForm()
 
     return render(request, 'create_post_template.html', {'form': form})
-
