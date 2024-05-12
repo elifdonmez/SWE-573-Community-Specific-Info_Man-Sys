@@ -338,14 +338,14 @@ def create_post_template(request, community_id):
             # Get selected fields and their mandatory status from the form data
             selected_fields = request.POST.getlist('fields')
             mandatory_fields = request.POST.getlist('mandatory_fields')
+            custom_labels = request.POST.getlist('custom_labels')
 
             # Combine selected fields and their mandatory status
             combined_fields = []
-            for field, mandatory in zip(selected_fields, mandatory_fields):
-                combined_fields.append(f"{field}:{mandatory}")
+            for field, mandatory, label in zip(selected_fields, mandatory_fields, custom_labels):
+                combined_fields.append(f"{field}:{mandatory}:{label}")
 
             fields_str = ','.join(combined_fields)
-
             # Save the template name and selected fields to the database
             template = PostTemplate.objects.create(template_name=name, community_id=community_id, fields=fields_str)
             template.save()

@@ -134,6 +134,7 @@ class PostTemplateForm(forms.Form):
         widget=forms.SelectMultiple(attrs={'class': 'form-control'})
     )
     is_mandatory = forms.BooleanField(required=False, widget=forms.CheckboxInput, initial=False)
+    custom_labels = forms.CharField(widget=forms.TextInput, max_length=50)
 
     class Meta:
         model = PostTemplate
