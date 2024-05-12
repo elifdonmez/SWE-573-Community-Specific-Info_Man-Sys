@@ -106,11 +106,21 @@
                 label.htmlFor = `mandatory_${dropdownCount}`;
                 label.textContent = 'Mandatory';
 
+                const customLabel = document.createElement('input');
+                customLabel.type = 'text';
+                customLabel.name = `custom_label_${dropdownCount}`;
+                customLabel.id = `custom_label_${dropdownCount}`;
+                customLabel.classList.add('form-control');
+                customLabel.style.marginTop = '5px';
+                customLabel.style.width = 'auto';
+
+
                 // Create container div for dropdown and checkbox
                 const fieldContainer = document.createElement('div');
                 fieldContainer.appendChild(newDropdown);
                 fieldContainer.appendChild(label);
                 fieldContainer.appendChild(mandatoryCheckbox);
+                fieldContainer.appendChild(customLabel);
 
                 // Append the new container to the dynamicFields div
                 container.appendChild(fieldContainer);
@@ -124,7 +134,8 @@
                     const fieldName = checkbox.name.replace('mandatory_', '');
                     return checkbox.checked ? `${fieldName}:mandatory` : `${fieldName}:non_mandatory`;
                 });
-
+                const customLabels = Array.from(container.querySelectorAll('input[type="text"]'))
+                    .map(text => text.value);
                 // Append hidden inputs for selected fields and their mandatory status
                 selectedFields.forEach(value => {
                     const hiddenInput = document.createElement('input');
@@ -138,6 +149,14 @@
                     const hiddenInput = document.createElement('input');
                     hiddenInput.type = 'hidden';
                     hiddenInput.name = 'mandatory_fields';
+                    hiddenInput.value = value;
+                    form.appendChild(hiddenInput);
+                });
+
+                customLabels.forEach(value => {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'custom_labels';
                     hiddenInput.value = value;
                     form.appendChild(hiddenInput);
                 });

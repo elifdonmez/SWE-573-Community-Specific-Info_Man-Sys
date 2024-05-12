@@ -330,6 +330,15 @@ def share_post(request, community_name):
 
 
 def create_post_template(request, community_id):
+    community_name = Community.objects.filter(id=community_id)[0].name
+    username = request.session.get('username')
+    # Get list of communities user joined
+    user_joined = UserCommunity.objects.filter(username=username, community_name=community_name).exists()
+    # Get current community object
+    # Get posts of the current community
+    posts = Posts.objects.filter(community_name=community_name)
+    # Get comments of the current post
+    comments = Comments.objects.all()
     if request.method == 'POST':
         form = PostTemplateForm(request.POST)
         if form.is_valid():
@@ -338,19 +347,26 @@ def create_post_template(request, community_id):
             # Get selected fields and their mandatory status from the form data
             selected_fields = request.POST.getlist('fields')
             mandatory_fields = request.POST.getlist('mandatory_fields')
+            custom_labels = request.POST.getlist('custom_labels')
 
             # Combine selected fields and their mandatory status
             combined_fields = []
-            for field, mandatory in zip(selected_fields, mandatory_fields):
-                combined_fields.append(f"{field}:{mandatory}")
+            for field, mandatory, label in zip(selected_fields, mandatory_fields, custom_labels):
+                combined_fields.append(f"{field}:{mandatory}:{label}")
 
             fields_str = ','.join(combined_fields)
-
             # Save the template name and selected fields to the database
             template = PostTemplate.objects.create(template_name=name, community_id=community_id, fields=fields_str)
             template.save()
 
-            return redirect('community_page')  # Redirect to community page after saving
+            return render(request, 'join-community.html', {
+                'community_name': community_name,
+                'community': community,
+                'user_joined': user_joined,
+                'username': username,
+                'posts': posts,
+                'comments': comments,
+            })  # Redirect to community page after saving
         else:
             # Form is not valid, print errors for debugging
             print(f"Form errors: {form.errors}")

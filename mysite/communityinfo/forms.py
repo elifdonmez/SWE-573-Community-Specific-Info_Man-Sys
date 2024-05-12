@@ -87,8 +87,8 @@ class CustomTemplatePostForm(forms.ModelForm):
         self.fields.clear()
         field_definitions = template.fields.split(',')
         for field_info in field_definitions:
-            field_name, order, requirement = field_info.split(':')
-            field_label = field_name.replace('_', ' ').capitalize()
+            field_name, order, requirement, field_label = field_info.split(':')
+            # field_label = field_name.replace('_', ' ').capitalize()
             required = True if requirement == 'mandatory' else False
 
             header = forms.CharField(widget=forms.TextInput, required=True)
@@ -134,6 +134,7 @@ class PostTemplateForm(forms.Form):
         widget=forms.SelectMultiple(attrs={'class': 'form-control'})
     )
     is_mandatory = forms.BooleanField(required=False, widget=forms.CheckboxInput, initial=False)
+    custom_labels = forms.CharField(widget=forms.TextInput, max_length=50)
 
     class Meta:
         model = PostTemplate
