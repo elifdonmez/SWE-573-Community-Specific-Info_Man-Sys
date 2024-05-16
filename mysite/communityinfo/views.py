@@ -4,7 +4,7 @@ from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm, ProfileForm, \
-    PostTemplateForm, CustomTemplatePostForm
+    PostTemplateForm, CustomTemplatePostForm, AdvancedSearchForm
 from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments, UserProfile, PostTemplate
 from django.contrib.auth.models import User
 
@@ -327,6 +327,24 @@ def share_post(request, community_name):
         form = TextBasedPostForm()  # Use default form for initial GET request
 
     return render(request, 'share-post.html', {'form': form, 'templates': templates})
+
+
+def advanced_search(request, community_name):
+    community = Community.objects.get(name=community_name)
+    templates = PostTemplate.objects.filter(community_id=community.id)
+
+    if request.method == 'POST':
+        template_id = request.POST.get('template')
+        if template_id:
+            selected_template = PostTemplate.objects.get(pk=template_id)
+            # Process form submission based on selected template
+            # Example: Render search form dynamically based on template fields
+            return render(request, 'advanced_search_form.html', {'selected_template': selected_template})
+        else:
+            return redirect('community', community_name=community_name)
+    else:
+        return render(request, 'advanced-search.html', {'community': community, 'templates': templates})
+
 
 
 def create_post_template(request, community_id):
