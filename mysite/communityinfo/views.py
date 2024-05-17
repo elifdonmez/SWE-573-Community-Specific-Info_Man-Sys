@@ -336,33 +336,31 @@ def advanced_search(request, community_name):
     if request.method == 'POST':
         template_id = request.POST.get('template')
         if template_id:
-            selected_template = PostTemplate.objects.get(pk=template_id)
-            # Process form submission based on selected template
-            # Example: Render search form dynamically based on template fields
-            return render(request, 'advanced-search-form.html', {'community_name': community_name,
-                                                                 'selected_template': selected_template})
+            return redirect('advanced_search_form', community_name=community_name, template_id=template_id)
         else:
             return redirect('community', community_name=community_name)
     else:
         return render(request, 'advanced-search.html', {'community_name': community_name, 'templates': templates})
 
 
-def advanced_search_form(request, selected_template):
+def advanced_search_form(request, community_name, template_id):
+    selected_template = PostTemplate.objects.get(pk=template_id)
+    print("Request Method:", request.method)
     if request.method == 'POST':
+        print("Hey Hey")
         form = AdvancedSearchForm(request.POST, template=selected_template)
-        form.save()
-        return render(request, 'advanced-search-results.html')
+        if form.is_valid():
+            # Assuming you want to do something with the valid form data
+            return redirect('advanced_search_results', community_name=community_name)
     else:
-        print("It is not post")
-        pass
+        form = AdvancedSearchForm(template=selected_template)
 
+    return render(request, 'advanced-search-form.html', {'community_name': community_name, 'selected_template': selected_template, 'form': form})
 
-def advanced_search_results(request, selected_template):
-    if request.method == 'POST':
-        return render(request, 'advanced-search-results.html')
-    else:
-        print("It is not post")
-        pass
+def advanced_search_results(request, community_name):
+    # Handle search results display here
+    return render(request, 'advanced-search-results.html')
+
 
 def create_post_template(request, community_id):
     community_name = Community.objects.filter(id=community_id)[0].name

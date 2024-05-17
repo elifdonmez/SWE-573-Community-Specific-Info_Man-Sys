@@ -68,41 +68,27 @@ class AdvancedSearchForm(forms.ModelForm):
     geolocation = forms.CharField(widget=forms.TextInput)
     date_time_field = forms.DateTimeField(widget=forms.DateTimeInput)
 
-    fields = forms.BaseFormSet()
-
     def __init__(self, *args, **kwargs):
         template = kwargs.pop('template', None)
-        super(CustomTemplatePostForm, self).__init__(*args, **kwargs)
-        print("Before if template")
+        super(AdvancedSearchForm, self).__init__(*args, **kwargs)
         if template is not None:
-            print("after if template")
             self.generate_form_fields(template)
 
     def generate_form_fields(self, template):
-        # Clear existing fields to start fresh
         self.fields.clear()
         field_definitions = template.fields.split(',')
         for field_info in field_definitions:
             field_name, order, requirement, field_label = field_info.split(':')
-            # field_label = field_name.replace('_', ' ').capitalize()
             required = True if requirement == 'mandatory' else False
 
-            header = forms.CharField(widget=forms.TextInput, required=True)
-
-            self.fields['header'] = header
-
-            if field_name == 'description':
-                self.fields['description'] = forms.CharField(widget=forms.Textarea, label=field_label,
-                                                             required=required)
+            if field_name == 'header':
+                self.fields['header'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
+            elif field_name == 'description':
+                self.fields['description'] = forms.CharField(widget=forms.Textarea, label=field_label, required=required)
             elif field_name == 'geolocation':
-                self.fields['geolocation'] = forms.CharField(widget=forms.TextInput, label=field_label,
-                                                             required=required)
+                self.fields['geolocation'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
             elif field_name == 'date_time_field':
-                self.fields['date_time_field'] = forms.DateTimeField(widget=forms.DateTimeInput, label=field_label,
-                                                                     required=required)
-            else:
-                pass
-        print(self.fields)
+                self.fields['date_time_field'] = forms.DateTimeField(widget=forms.DateTimeInput, label=field_label, required=required)
 
     class Meta:
         model = Posts

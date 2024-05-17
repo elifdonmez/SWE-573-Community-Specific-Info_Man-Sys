@@ -56,19 +56,10 @@
 </head>
 <body>
 <h1>Advanced Search - {{ selected_template.template_name }}</h1>
-<form method="post" action="{% url 'advanced_search' community_name=community_name %}">
+<form method="post" action="{% url 'advanced_search_form' community_name=community_name template_id=selected_template.id %}">
     {% csrf_token %}
     <!-- Render form fields dynamically based on selected_template -->
-    {% for field in selected_template.fields %}
-        <label for="id_{{ field.field_name }}">{{ field.field_label }}:</label>
-        {% if field.field_type == 'text' %}
-            <input type="text" id="id_{{ field.field_name }}" name="{{ field.field_name }}">
-        {% elif field.field_type == 'textarea' %}
-            <textarea id="id_{{ field.field_name }}" name="{{ field.field_name }}"></textarea>
-        {% elif field.field_type == 'datetime' %}
-            <input type="datetime-local" id="id_{{ field.field_name }}" name="{{ field.field_name }}">
-        {% endif %}
-    {% endfor %}
+        {{ form.as_p }}
     <button type="submit">Search</button>
 </form>
 </body>
