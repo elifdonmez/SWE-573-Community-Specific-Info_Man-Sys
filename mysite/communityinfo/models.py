@@ -71,8 +71,8 @@ class Posts(models.Model):
     number_of_smiles = models.IntegerField()
     number_of_hearts = models.IntegerField()
     number_of_sadfaces = models.IntegerField()
+    template_id = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)  # Automatically set on creation
-
 
 class PostTemplate(models.Model):
     class Meta:

@@ -255,7 +255,6 @@ def visit_community(request, community_name):
     posts = Posts.objects.filter(community_name=community_name)
     # Get comments of the current post
     comments = Comments.objects.all()
-    print("ID:" + str(posts[0].id))
     return render(request, 'join-community.html', {
         'community_name': community_name,
         'community': community,
@@ -318,7 +317,8 @@ def share_post(request, community_name):
                 number_of_downvotes=0,
                 number_of_smiles=0,
                 number_of_hearts=0,
-                number_of_sadfaces=0
+                number_of_sadfaces=0,
+                template_id=template_id
             )
 
             return redirect('community', community_name=community_name)
@@ -342,6 +342,7 @@ def advanced_search(request, community_name):
     else:
         return render(request, 'advanced-search.html', {'community_name': community_name, 'templates': templates})
 
+
 def search_communities(request):
     q = request.GET.get('q')
     if q:
@@ -350,6 +351,7 @@ def search_communities(request):
         return render(request, 'search.html', {"users": registered_users, "communities": communities})
     else:
         return redirect('home')
+
 
 def advanced_search_form(request, community_name, template_id):
     selected_template = PostTemplate.objects.get(pk=template_id)
@@ -375,15 +377,17 @@ def advanced_search_form(request, community_name, template_id):
                 query['geolocation__icontains'] = geolocation
             if date_time_field:
                 query['date_time_field'] = date_time_field
+            query['template_id__icontains'] = template_id
 
             # Perform the search
-            posts = Posts.objects.filter(**query)
+            posts = Posts.objects.filter(template_id=template_id, **query)
             return render(request, 'advanced-search-results.html', {'posts': posts})
             return redirect('advanced_search_results', community_name=community_name)
     else:
         form = AdvancedSearchForm(template=selected_template)
 
     return render(request, 'advanced-search-form.html', {'community_name': community_name, 'selected_template': selected_template, 'form': form})
+
 
 def advanced_search_results(request, community_name):
     # Handle search results display here
