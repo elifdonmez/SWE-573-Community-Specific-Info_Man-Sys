@@ -79,16 +79,15 @@ class AdvancedSearchForm(forms.ModelForm):
         field_definitions = template.fields.split(',')
         for field_info in field_definitions:
             field_name, order, requirement, field_label = field_info.split(':')
-            required = True if requirement == 'mandatory' else False
 
             if field_name == 'header':
-                self.fields['header'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
+                self.fields['header'] = forms.CharField(widget=forms.TextInput, label=field_label, required=False)
             elif field_name == 'description':
-                self.fields['description'] = forms.CharField(widget=forms.Textarea, label=field_label, required=required)
+                self.fields['description'] = forms.CharField(widget=forms.Textarea, label=field_label, required=False)
             elif field_name == 'geolocation':
-                self.fields['geolocation'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
+                self.fields['geolocation'] = forms.CharField(widget=forms.TextInput, label=field_label, required=False)
             elif field_name == 'date_time_field':
-                self.fields['date_time_field'] = forms.DateTimeField(widget=forms.DateTimeInput, label=field_label, required=required)
+                self.fields['date_time_field'] = forms.DateTimeField(widget=forms.DateTimeInput, label=field_label, required=False)
 
     class Meta:
         model = Posts
