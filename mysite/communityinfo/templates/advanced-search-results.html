@@ -46,11 +46,17 @@
     </style>
 </head>
 <body>
-<h2>Search Results for "{{ query }}"</h2>
+<h2>Advanced Search Results</h2>
 {% if posts %}
         <ul>
             {% for post in posts %}
-                <li>{{ post.header }} - {{ post.description }} - {{ post.geolocation }} - {{ post.date_time_field }}</li>
+                <li>
+                    <a href="{% url 'post' post_id=post.id %}">
+                    {{ post.header }} {% if post.description %} - {{ post.description }}{% endif %}
+                    {% if post.geolocation %} - {{ post.geolocation }}{% endif %}
+                    {% if post.geolocation %} - {{ post.date_time_field }}{% endif %}
+                    </a>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
