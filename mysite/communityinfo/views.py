@@ -339,13 +339,30 @@ def advanced_search(request, community_name):
             selected_template = PostTemplate.objects.get(pk=template_id)
             # Process form submission based on selected template
             # Example: Render search form dynamically based on template fields
-            return render(request, 'advanced_search_form.html', {'selected_template': selected_template})
+            return render(request, 'advanced-search-form.html', {'community_name': community_name,
+                                                                 'selected_template': selected_template})
         else:
             return redirect('community', community_name=community_name)
     else:
-        return render(request, 'advanced-search.html', {'community': community, 'templates': templates})
+        return render(request, 'advanced-search.html', {'community_name': community_name, 'templates': templates})
 
 
+def advanced_search_form(request, selected_template):
+    if request.method == 'POST':
+        form = AdvancedSearchForm(request.POST, template=selected_template)
+        form.save()
+        return render(request, 'advanced-search-results.html')
+    else:
+        print("It is not post")
+        pass
+
+
+def advanced_search_results(request, selected_template):
+    if request.method == 'POST':
+        return render(request, 'advanced-search-results.html')
+    else:
+        print("It is not post")
+        pass
 
 def create_post_template(request, community_id):
     community_name = Community.objects.filter(id=community_id)[0].name

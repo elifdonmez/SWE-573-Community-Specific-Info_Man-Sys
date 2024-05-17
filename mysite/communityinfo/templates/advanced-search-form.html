@@ -56,7 +56,7 @@
 </head>
 <body>
 <h1>Advanced Search - {{ selected_template.template_name }}</h1>
-<form method="post" action="{% url 'perform_advanced_search' community_name=community.name %}">
+<form method="post" action="{% url 'advanced_search' community_name=community_name %}">
     {% csrf_token %}
     <!-- Render form fields dynamically based on selected_template -->
     {% for field in selected_template.fields %}
