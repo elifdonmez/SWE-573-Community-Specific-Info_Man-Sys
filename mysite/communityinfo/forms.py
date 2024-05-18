@@ -55,8 +55,6 @@ class TextBasedPostForm(forms.ModelForm):
     header = forms.CharField(widget=forms.TextInput)
     description = forms.CharField(widget=forms.Textarea)
 
-
-
     class Meta:
         model = Posts
         fields = ['header', 'description']
@@ -96,59 +94,36 @@ class AdvancedSearchForm(forms.ModelForm):
 
 class CustomTemplatePostForm(forms.ModelForm):
     header = forms.CharField(widget=forms.TextInput)
-
     description = forms.CharField(widget=forms.Textarea)
     image_url = forms.CharField(widget=forms.TextInput)
     video_url = forms.CharField(widget=forms.TextInput)
     geolocation = forms.CharField(widget=forms.TextInput)
     date_time_field = forms.DateTimeField(widget=forms.DateTimeInput)
     audio_url = forms.CharField(widget=forms.TextInput)
-
-    fields = forms.BaseFormSet()
+    template_id = forms.IntegerField(widget=forms.HiddenInput)
 
     def __init__(self, *args, **kwargs):
         template = kwargs.pop('template', None)
         super(CustomTemplatePostForm, self).__init__(*args, **kwargs)
-        print("Before if template")
         if template is not None:
-            print("after if template")
             self.generate_form_fields(template)
+            self.initial['template_id'] = template.id
 
     def generate_form_fields(self, template):
-        # Clear existing fields to start fresh
         self.fields.clear()
         field_definitions = template.fields.split(',')
         for field_info in field_definitions:
             field_name, order, requirement, field_label = field_info.split(':')
-            # field_label = field_name.replace('_', ' ').capitalize()
-            required = True if requirement == 'mandatory' else False
-
-            header = forms.CharField(widget=forms.TextInput, required=True)
-
-            self.fields['header'] = header
-
-            if field_name == 'description':
-                self.fields['description'] = forms.CharField(widget=forms.Textarea, label=field_label,
-                                                             required=required)
-            elif field_name == 'image_url':
-                self.fields['image_url'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
-            elif field_name == 'video_url':
-                self.fields['video_url'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
-            elif field_name == 'geolocation':
-                self.fields['geolocation'] = forms.CharField(widget=forms.TextInput, label=field_label,
-                                                             required=required)
-            elif field_name == 'date_time_field':
-                self.fields['date_time_field'] = forms.DateTimeField(widget=forms.DateTimeInput, label=field_label,
-                                                                     required=required)
-            elif field_name == 'audio_url':
-                self.fields['audio_url'] = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
-            else:
-                pass
-        print(self.fields)
+            required = requirement == 'mandatory'
+            field_type = forms.CharField if field_name == 'description' else forms.CharField
+            self.fields[field_name] = field_type(widget=forms.TextInput, label=field_label, required=required)
+        self.fields['template_id'] = field_type(widget=forms.HiddenInput(attrs={'value':template.id}), required=True)
 
     class Meta:
         model = Posts
-        fields = ['header', 'description', 'image_url', 'video_url', 'geolocation', 'audio_url', 'date_time_field']
+        fields = ['header', 'description', 'image_url', 'video_url', 'geolocation', 'date_time_field', 'audio_url',
+                  'template_id']
+
 
 
 class PostTemplateForm(forms.Form):

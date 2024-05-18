@@ -318,9 +318,8 @@ def share_post(request, community_name):
                 number_of_smiles=0,
                 number_of_hearts=0,
                 number_of_sadfaces=0,
-                template_id=template_id
+                template_id=request.POST.get('template_id')
             )
-
             return redirect('community', community_name=community_name)
     else:
         # Handle GET request to render initial form
@@ -386,7 +385,8 @@ def advanced_search_form(request, community_name, template_id):
     else:
         form = AdvancedSearchForm(template=selected_template)
 
-    return render(request, 'advanced-search-form.html', {'community_name': community_name, 'selected_template': selected_template, 'form': form})
+    return render(request, 'advanced-search-form.html',
+                  {'community_name': community_name, 'selected_template': selected_template, 'form': form})
 
 
 def advanced_search_results(request, community_name):
