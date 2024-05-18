@@ -132,6 +132,13 @@ def community_creation(request):
         # community.save()
         form = CommunityCreationForm()
         UserCommunity.objects.create(username=username, community_name=community.name)
+        template_name = "default template"
+        community_id = Community.objects.filter(name=community.name)
+        fields = "description:1:non_mandatory:Description"
+        is_active = 1
+        default_template = PostTemplate.objects.create(template_name=template_name, community_id=community_id[0].id,
+                                                       fields=fields, is_active=is_active)
+        default_template.save()
         return render(request, 'home.html',
                       {'form': form, 'communities': communities, 'people': people, 'username': username,
                        'posts': posts, 'user_communities': user_communities})
@@ -298,11 +305,12 @@ def share_post(request, community_name):
     if request.method == 'POST':
         template_id = request.POST.get('template')
 
+        print("template id " + str(template_id))
+
         if template_id:
             selected_template = PostTemplate.objects.get(pk=template_id)
             form = CustomTemplatePostForm(request.POST, template=selected_template)
         else:
-            # Create new post
             new_post = Posts.objects.create(
                 community_name=community_name,
                 submitter_name=username,
@@ -321,9 +329,13 @@ def share_post(request, community_name):
                 template_id=request.POST.get('template_id')
             )
             return redirect('community', community_name=community_name)
+
     else:
+        default_template_id = PostTemplate.objects.filter(template_name="default template",
+                                                          community_id=community.id)[0].id
+        selected_template = PostTemplate.objects.get(pk=default_template_id)
+        form = CustomTemplatePostForm(request.POST, template=selected_template)
         # Handle GET request to render initial form
-        form = TextBasedPostForm()  # Use default form for initial GET request
 
     return render(request, 'share-post.html', {'form': form, 'templates': templates})
 

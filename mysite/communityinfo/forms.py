@@ -54,10 +54,11 @@ class EditRulesForm(forms.ModelForm):
 class TextBasedPostForm(forms.ModelForm):
     header = forms.CharField(widget=forms.TextInput)
     description = forms.CharField(widget=forms.Textarea)
+    template_id = forms.IntegerField(widget=forms.HiddenInput(attrs={'value': 0}), required=True)
 
     class Meta:
         model = Posts
-        fields = ['header', 'description']
+        fields = ['header', 'description', 'template_id']
 
 
 class AdvancedSearchForm(forms.ModelForm):
@@ -117,15 +118,21 @@ class CustomTemplatePostForm(forms.ModelForm):
         for field_info in field_definitions:
             field_name, order, requirement, field_label = field_info.split(':')
             required = requirement == 'mandatory'
-            field_type = forms.CharField if field_name == 'description' else forms.CharField
-            self.fields[field_name] = field_type(widget=forms.TextInput, label=field_label, required=required)
-        self.fields['template_id'] = field_type(widget=forms.HiddenInput(attrs={'value':template.id}), required=True)
+
+            if field_name == 'description':
+                field_type = forms.CharField(widget=forms.Textarea, label=field_label, required=required)
+            else:
+                field_type = forms.CharField(widget=forms.TextInput, label=field_label, required=required)
+
+            self.fields[field_name] = field_type
+
+        self.fields['template_id'] = forms.IntegerField(widget=forms.HiddenInput(attrs={'value': template.id}),
+                                                        required=False)
 
     class Meta:
         model = Posts
         fields = ['header', 'description', 'image_url', 'video_url', 'geolocation', 'date_time_field', 'audio_url',
                   'template_id']
-
 
 
 class PostTemplateForm(forms.Form):
@@ -148,3 +155,4 @@ class PostTemplateForm(forms.Form):
     class Meta:
         model = PostTemplate
         fields = ['name']
+
