@@ -22,7 +22,7 @@
             margin-bottom: 10px;
         }
         .post-section {
-            margin-top: 30px;
+            margin-top: 100px;
         }
         .post {
             border: 1px solid #ccc;
@@ -51,6 +51,34 @@
             border-radius: 5px;
             transition: all 0.3s ease;
         }
+        .share-post-button button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding-block-start: 50px;
+            padding-inline: 700px;
+        }
+        .search-button a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            border: 1px solid #007bff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            float: left;
+            margin-inline: 150px;
+            margin-block-start: 20px;
+        }
+        .community_rules {
+            float: left;
+        }
+        .container {
+            margin: auto;
+        }
         .edit-rules-link a:hover, .share-post-button a:hover {
             background-color: #007bff;
             color: #fff;
@@ -59,10 +87,21 @@
 </head>
 <body>
     <h1>Welcome to "{{ community_name }}" community.</h1>
-    <h2>Community Rules</h2>
-    <ul>
-        <li>{{ community.rules }}</li>
-    </ul>
+    <div class="container">
+        <div class="community_rules">
+           <h2>Community Rules</h2>
+            <ul>
+                <li>{{ community.rules }}</li>
+            </ul>
+        </div>
+        <div>
+
+
+        <!-- Link to Advanced Search -->
+            <a href="{% url 'advanced_search' community_name=community.name %}">Advanced Search</a>
+        </div>
+    </div>
+
     <div class="post-section">
         <h2>Recent Posts</h2>
         {% for post in posts %}

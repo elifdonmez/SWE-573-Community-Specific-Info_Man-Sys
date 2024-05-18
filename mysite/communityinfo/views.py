@@ -4,7 +4,7 @@ from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import check_password
 from .forms import RegistrationForm, LoginForm, CommunityCreationForm, EditRulesForm, TextBasedPostForm, ProfileForm, \
-    PostTemplateForm, CustomTemplatePostForm
+    PostTemplateForm, CustomTemplatePostForm, AdvancedSearchForm
 from .models import Community, UserCommunity, RegisteredUser, UserFollower, Posts, Comments, UserProfile, PostTemplate
 from django.contrib.auth.models import User
 
@@ -255,7 +255,6 @@ def visit_community(request, community_name):
     posts = Posts.objects.filter(community_name=community_name)
     # Get comments of the current post
     comments = Comments.objects.all()
-    print("ID:" + str(posts[0].id))
     return render(request, 'join-community.html', {
         'community_name': community_name,
         'community': community,
@@ -318,15 +317,81 @@ def share_post(request, community_name):
                 number_of_downvotes=0,
                 number_of_smiles=0,
                 number_of_hearts=0,
-                number_of_sadfaces=0
+                number_of_sadfaces=0,
+                template_id=request.POST.get('template_id')
             )
-
             return redirect('community', community_name=community_name)
     else:
         # Handle GET request to render initial form
         form = TextBasedPostForm()  # Use default form for initial GET request
 
     return render(request, 'share-post.html', {'form': form, 'templates': templates})
+
+
+def advanced_search(request, community_name):
+    community = Community.objects.get(name=community_name)
+    templates = PostTemplate.objects.filter(community_id=community.id)
+
+    if request.method == 'POST':
+        template_id = request.POST.get('template')
+        if template_id:
+            return redirect('advanced_search_form', community_name=community_name, template_id=template_id)
+        else:
+            return redirect('community', community_name=community_name)
+    else:
+        return render(request, 'advanced-search.html', {'community_name': community_name, 'templates': templates})
+
+
+def search_communities(request):
+    q = request.GET.get('q')
+    if q:
+        communities = Community.objects.filter(name__icontains=q)
+        registered_users = RegisteredUser.objects.filter(email__icontains=q)
+        return render(request, 'search.html', {"users": registered_users, "communities": communities})
+    else:
+        return redirect('home')
+
+
+def advanced_search_form(request, community_name, template_id):
+    selected_template = PostTemplate.objects.get(pk=template_id)
+    print("Request Method:", request.method)
+    if request.method == 'POST':
+        print("Hey Hey")
+        form = AdvancedSearchForm(request.POST, template=selected_template)
+        if form.is_valid():
+            print("Form is valid")
+            # Collect form data
+            header = form.cleaned_data.get('header')
+            description = form.cleaned_data.get('description')
+            geolocation = form.cleaned_data.get('geolocation')
+            date_time_field = form.cleaned_data.get('date_time_field')
+
+            # Build the query based on provided inputs
+            query = {}
+            if header:
+                query['header__icontains'] = header
+            if description:
+                query['description__icontains'] = description
+            if geolocation:
+                query['geolocation__icontains'] = geolocation
+            if date_time_field:
+                query['date_time_field'] = date_time_field
+            query['template_id__icontains'] = template_id
+
+            # Perform the search
+            posts = Posts.objects.filter(template_id=template_id, **query)
+            return render(request, 'advanced-search-results.html', {'posts': posts})
+            return redirect('advanced_search_results', community_name=community_name)
+    else:
+        form = AdvancedSearchForm(template=selected_template)
+
+    return render(request, 'advanced-search-form.html',
+                  {'community_name': community_name, 'selected_template': selected_template, 'form': form})
+
+
+def advanced_search_results(request, community_name):
+    # Handle search results display here
+    return render(request, 'advanced-search-results.html')
 
 
 def create_post_template(request, community_id):
@@ -358,15 +423,7 @@ def create_post_template(request, community_id):
             # Save the template name and selected fields to the database
             template = PostTemplate.objects.create(template_name=name, community_id=community_id, fields=fields_str)
             template.save()
-
-            return render(request, 'join-community.html', {
-                'community_name': community_name,
-                'community': community,
-                'user_joined': user_joined,
-                'username': username,
-                'posts': posts,
-                'comments': comments,
-            })  # Redirect to community page after saving
+            return redirect('visit_community', community_name=community_name)
         else:
             # Form is not valid, print errors for debugging
             print(f"Form errors: {form.errors}")

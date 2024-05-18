@@ -52,6 +52,18 @@ class UserFollower(models.Model):
     follower_username = models.CharField(max_length=600)
 
 
+class PostTemplate(models.Model):
+    class Meta:
+        db_table = 'post_templates'
+
+    template_name = models.CharField(max_length=255)
+    community_id = models.IntegerField(max_length=255)
+    fields = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Posts(models.Model):
 
     class Meta:
@@ -72,18 +84,7 @@ class Posts(models.Model):
     number_of_hearts = models.IntegerField()
     number_of_sadfaces = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)  # Automatically set on creation
-
-
-class PostTemplate(models.Model):
-    class Meta:
-        db_table = 'post_templates'
-
-    template_name = models.CharField(max_length=255)
-    community_id = models.IntegerField(max_length=255)
-    fields = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    template_id = models.IntegerField(default=0)
 
 
 class Comments(models.Model):

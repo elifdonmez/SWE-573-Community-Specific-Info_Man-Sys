@@ -9,7 +9,8 @@ from django.views.static import serve
 
 from communityinfo.views import register, user_login, home_page, community_creation, \
     community, follow_user, search_communities, edit_rules, share_post, join_community, visit_community, \
-    view_profile, edit_profile, post_view, create_post_template
+    view_profile, edit_profile, post_view, create_post_template, advanced_search, advanced_search_form, \
+    advanced_search_results
 
 urlpatterns = [
     path('', register, name='register'),  # Root URL mapped to the register view
@@ -24,6 +25,11 @@ urlpatterns = [
     path('join-community/<str:community_name>/', join_community, name='join_community'),
     path('visit-community/<str:community_name>/', visit_community, name='visit_community'),
     path('post/<int:post_id>/', post_view, name='post'),
+    path('community/<str:community_name>/advanced-search/', advanced_search, name='advanced_search'),
+    path('community/<str:community_name>/<str:template_id>/advanced-search/', advanced_search_form,
+         name='advanced_search_form'),
+    path('community/<str:community_name>/advanced-search-results/', advanced_search_results,
+         name='advanced_search_results'),
     path('profile/', view_profile, name='view_profile'),
     path('edit-profile/', edit_profile, name='edit_profile'),
     path('create_post_template/<str:community_id>/', create_post_template, name='create_post_template'),
