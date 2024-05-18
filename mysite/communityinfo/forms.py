@@ -75,6 +75,7 @@ class AdvancedSearchForm(forms.ModelForm):
     def generate_form_fields(self, template):
         self.fields.clear()
         field_definitions = template.fields.split(',')
+        self.fields['header'] = forms.CharField(widget=forms.TextInput, label="Header", required=False)
         for field_info in field_definitions:
             field_name, order, requirement, field_label = field_info.split(':')
 
@@ -112,6 +113,7 @@ class CustomTemplatePostForm(forms.ModelForm):
     def generate_form_fields(self, template):
         self.fields.clear()
         field_definitions = template.fields.split(',')
+        self.fields['header'] = forms.CharField(widget=forms.TextInput, label="Header", required=False)
         for field_info in field_definitions:
             field_name, order, requirement, field_label = field_info.split(':')
             required = requirement == 'mandatory'

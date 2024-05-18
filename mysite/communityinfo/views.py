@@ -129,7 +129,7 @@ def community_creation(request):
                                              privacy=is_private,
                                              rules=request.POST.getlist('rules')[0],
                                              creator=username)
-        community.save()
+        # community.save()
         form = CommunityCreationForm()
         UserCommunity.objects.create(username=username, community_name=community.name)
         return render(request, 'home.html',
