@@ -1,0 +1,2 @@
+test_login_view: 200
+test_register_view: 200

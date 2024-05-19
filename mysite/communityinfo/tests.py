@@ -1,22 +1,25 @@
-from http.cookies import SimpleCookie
 
-from django.http import HttpResponseRedirect
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from .views import *
 
 
 class ViewTests(TestCase):
     def setUp(self):
         self.client = Client()
+        self.test_results_file_name = 'test_results.txt'
+        self.test_results_file = open(self.test_results_file_name, 'a')
+
 
     def test_register_view(self):
         response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
+        self.write_test_result('test_register_view', response.status_code)
 
     def test_login_view(self):
         response = self.client.get(reverse('login'))
         self.assertEqual(response.status_code, 200)
+        self.write_test_result('test_login_view', response.status_code)
 
     ''' This test is not working right now, username cannot be written to the database
     def not_test_view_profile(self):
@@ -31,5 +34,13 @@ class ViewTests(TestCase):
         print(response)
         self.assertEqual(response.status_code, 200)
         '''
+
+
+    def write_test_result(self, test_name, status_code):
+        with open(self.test_results_file_name, 'a') as file:
+            file.write(f'{test_name}: {status_code}\n')
+
+    def tearDown(self):
+        self.test_results_file.close()
 
 
