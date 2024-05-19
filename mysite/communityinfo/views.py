@@ -30,6 +30,8 @@ def view_profile(request):
     try:
         # Try to retrieve the user's profile
         user_profile = UserProfile.objects.get(email=username)
+        if user_profile:
+            print("OK")
     except UserProfile.DoesNotExist:
         # If the profile does not exist, redirect to the edit profile page
         return redirect('edit_profile')

@@ -78,7 +78,7 @@ if DEBUG:
             'NAME': 'comm-db',
             'USER': 'root',
             'PASSWORD': 'pY!12!hY',
-            'HOST':'db',
+            'HOST':'localhost',
             'PORT':'3306',
         }
     }
