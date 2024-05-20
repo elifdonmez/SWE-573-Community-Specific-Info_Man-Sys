@@ -1,6 +1,6 @@
 # SWE-573-Community-Specific-Info_Man-Sys
 
-Welcome to the Community Specific Information Management System! 
+Welcome to the Community-Specific Information Management System! 
 This project allows users to create and join communities, share posts, and interact with other users.
 
 ## Overview
@@ -32,12 +32,13 @@ This project is built using the following technologies:
 To run this project locally, follow these steps:
 
 1. Clone the repository: `git clone <repository-url>`
-2. Start the MySQL database
+2. Download Docker: https://docs.docker.com/desktop/install/
 3. Navigate to the project directory: `cd community-interaction-platform`
-4. Install dependencies: `pip install -r requirements.txt`
-5. Set up the database: `python manage.py migrate`
-6. Start the development server: `python manage.py runserver`
-7. Access the application in your web browser: [http://localhost:8000](http://localhost:8000)
+4. Open Terminal
+5. Navigate to the Project Path 
+6. Run “docker-compose build”
+7. Run “docker-compose up”
+8. Access the application in your web browser: [http://localhost:8000](http://localhost:8000)
 
 ## Usage
 
@@ -45,6 +46,7 @@ To run this project locally, follow these steps:
 2. Browse and join existing communities or create a new community.
 3. Share posts within communities and engage in discussions through comments.
 4. Edit community rules if you are the community creator.
+5. Create custom post templates as a community creator.
 
 ## License
 
